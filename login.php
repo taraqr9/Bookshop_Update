@@ -72,10 +72,10 @@ if(isset($_POST['login'])){
         <div class="container-fluid">
             <?php
             if (!empty($Error)) {
-                echo "<p class='text-danger'>" . $regError . "</p>";
+                echo "<p class='text-danger'>" . $Error . "</p>";
                 $Error = "";
             } elseif (!empty($Done)) {
-                echo "<p class='text-success'>" . $regDone . "</p>";
+                echo "<p class='text-success'>" . $Done . "</p>";
                 $Done = "";
             }
             ?>
