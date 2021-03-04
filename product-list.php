@@ -96,17 +96,19 @@ include "init.php";
                                 </div>
                             </div>
                         </div>
+                        
                         <?php 
                             $query = $source->Query("SELECT * FROM books");
                             $query = $source->FetchAll();
                             $CountRow = $source->CountRows();
                             if($CountRow>0){
                                 foreach($query as $row):
+                                    
                                     echo "
                                 <div class='col-md-4'>
                                 <div class='product-item'>
                                     <div class='product-title' style='height:100px;'>
-                                        <a href='#' >$row->name</a>
+                                        <a href='product-detail.php?bid=".$row->id."'>$row->name</a>
                                         <div class='ratting'>
                                             <i class='fa fa-star'></i>
                                             <i class='fa fa-star'></i>
@@ -117,12 +119,11 @@ include "init.php";
                                     </div>
                                     <div class='product-image' >
                                         <a href='product-detail.html'>
-                                            <img src='assets/bookimg/".$row->image."' style='height:250px;' alt='Product Image'>
+                                            <img src='assets/bookimg/".$row->image."' style='height:400px;width:400px;' alt='Product Image'>
                                         </a>
                                         <div class='product-action'>
                                             <a href='#'><i class='fa fa-cart-plus'></i></a>
                                             <a href='#'><i class='fa fa-heart'></i></a>
-                                            <a href='#'><i class='fa fa-search'></i></a>
                                         </div>
                                     </div>
                                     <div class='product-price'>
@@ -135,6 +136,7 @@ include "init.php";
                                 endforeach;
                             }
                         ?>
+                        
                         <!-- <div class="col-md-4">
                             <div class="product-item">
                                 <div class="product-title">
@@ -166,7 +168,6 @@ include "init.php";
                         
                     </div>
                 </div>
-
                 <!-- Side Bar Start -->
                 <?php include 'php/sideBarCate.php' ?>
                 <!-- Side Bar End -->

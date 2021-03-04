@@ -1,3 +1,11 @@
+<?php
+include "init.php";
+$pd = new productdetail();
+if (!empty($_GET['bid'])) {
+    $pd->productDetails($_GET['bid']);
+}
+
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -52,25 +60,12 @@
                             <div class="col-md-5">
                                 <div class="product-slider-single normal-slider">
                                     <img src="img/product-1.jpg" alt="Product Image">
-                                    <img src="img/product-3.jpg" alt="Product Image">
-                                    <img src="img/product-5.jpg" alt="Product Image">
-                                    <img src="img/product-7.jpg" alt="Product Image">
-                                    <img src="img/product-9.jpg" alt="Product Image">
-                                    <img src="img/product-10.jpg" alt="Product Image">
-                                </div>
-                                <div class="product-slider-single-nav normal-slider">
-                                    <div class="slider-nav-img"><img src="img/product-1.jpg" alt="Product Image"></div>
-                                    <div class="slider-nav-img"><img src="img/product-3.jpg" alt="Product Image"></div>
-                                    <div class="slider-nav-img"><img src="img/product-5.jpg" alt="Product Image"></div>
-                                    <div class="slider-nav-img"><img src="img/product-7.jpg" alt="Product Image"></div>
-                                    <div class="slider-nav-img"><img src="img/product-9.jpg" alt="Product Image"></div>
-                                    <div class="slider-nav-img"><img src="img/product-10.jpg" alt="Product Image"></div>
                                 </div>
                             </div>
                             <div class="col-md-7">
                                 <div class="product-content">
                                     <div class="title">
-                                        <h2>Product Name</h2>
+                                        <h2><?php echo $pd->getName();  ?></h2>
                                     </div>
                                     <div class="ratting">
                                         <i class="fa fa-star"></i>
@@ -81,7 +76,7 @@
                                     </div>
                                     <div class="price">
                                         <h4>Price:</h4>
-                                        <p>$99 <span>$149</span></p>
+                                        <p><?php echo $pd->getPrice();  ?></p>
                                     </div>
                                     <div class="quantity">
                                         <h4>Quantity:</h4>
@@ -93,15 +88,17 @@
                                     </div>
                                     <div class="p-size">
                                         <h4>Author:</h4>
-                                        <!-- FIXME -->
+                                        <span><?php echo $pd->getAuthor();  ?></span>
+
                                     </div>
                                     <div class="p-color">
                                         <h4>Publisher:</h4>
-                                        <!-- FIXME  -->
+                                        <span><?php echo $pd->getPublisher();  ?></span>
                                     </div>
+                                    <!-- FIXME addCart & buyNow  -->
                                     <div class="action">
-                                        <a class="btn" href="#"><i class="fa fa-shopping-cart"></i>Add to Cart</a>
-                                        <a class="btn" href="#"><i class="fa fa-shopping-bag"></i>Buy Now</a>
+                                        <a class="btn" href="classes/sessionLog.php?addCart=1"><i class="fa fa-shopping-cart"></i>Add to Cart</a>
+                                        <a class="btn" href="classes/sessionLog.php?buyNow=1"><i class="fa fa-shopping-bag"></i>Buy Now</a>
                                     </div>
                                 </div>
                             </div>

@@ -1,5 +1,6 @@
 <?php
 include "init.php";
+
 if (isset($_POST['registration'])) {
     if (!empty($_POST['regName']) || !empty($_POST['regEmail']) || !empty($_POST['phone']) || !empty($_POST['address']) || !empty($_POST['regPassword'])) {
         if (new signup($_POST['regName'], $_POST['regEmail'], $_POST['regPassword'], $_POST['phone'], $_POST['address'])) {
@@ -12,14 +13,14 @@ if (isset($_POST['registration'])) {
     }
 }
 
-if(isset($_POST['login'])){
+if (isset($_POST['login'])) {
     if (!empty($_POST['logEmail']) || !empty($_POST['logPassword'])) {
-        if($login = new login($_POST['logEmail'],$_POST['logPassword'])){
+        if ($login = new login($_POST['logEmail'], $_POST['logPassword'])) {
             $id = $login->id($_POST['logEmail']);
             $_SESSION['login_success'] = $login->name($_POST['logEmail']);
             header("location:index.php");
         }
-    }else{
+    } else {
         $Error = "Please enter your email and password";
     }
 }
@@ -54,18 +55,15 @@ if(isset($_POST['login'])){
     <!-- Nav Bar Start -->
     <?php include 'php/headnav.php'; ?>
     <!-- Nav Bar End -->
+    <!-- NOTE  if User not login before buys something then the msg will showUP -->
+    <?php
 
-    <!-- Breadcrumb Start -->
-    <div class='breadcrumb-wrap'>
-            <div class='container-fluid'>
-                <ul class='breadcrumb'>
-                    <li class='breadcrumb-item'><a href='#'>Home</a></li>
-                    <li class='breadcrumb-item'><a href='#'>Products</a></li>
-                    <li class='breadcrumb-item active'>Login & Register</li>
-                </ul>
-            </div>
-        </div>
-    <!-- Breadcrumb End -->
+    if(!empty($_GET['Error'])){
+        echo "<span class='h2 text-danger'> Please Registration or Login first </span>";
+        $_GET['Error'] = "";
+    }
+    ?>
+    
 
     <!-- Login Start -->
     <div class="login">
@@ -115,9 +113,9 @@ if(isset($_POST['login'])){
                 </div>
                 <div class="col-lg-6">
                     <div class="login-form">
-                    <form method="POST">
-                        <div class="row">
-                            
+                        <form method="POST">
+                            <div class="row">
+
                                 <div class="col-md-6">
                                     <label>E-mail</label>
                                     <input class="form-control" type="email" placeholder="E-mail" name="logEmail">
@@ -129,8 +127,8 @@ if(isset($_POST['login'])){
                                 <div class="col-md-12">
                                     <input class="btn" type="submit" name="login" value="Login">
                                 </div>
-                            
-                        </div>
+
+                            </div>
                         </form>
                     </div>
                 </div>
