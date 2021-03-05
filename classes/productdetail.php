@@ -1,6 +1,7 @@
 <?php
 class productdetail
 {
+    private $id;
     private $name;
     private $author;
     private $publisher;
@@ -14,6 +15,7 @@ class productdetail
         $source = new source();
         if ($source->Query("SELECT * FROM books WHERE id = ?", [$bid])) {
             $query = $source->SingleRow();
+            $this->id = $bid;
             $this->name = $query->name;
             $this->author = $query->author;
             $this->publisher = $query->publisher;
@@ -82,4 +84,14 @@ class productdetail
     {
         return $this->image;
     }
+
+    /**
+     * Get the value of id
+     */ 
+    public function getId()
+    {
+        return $this->id;
+    }
+
+
 }

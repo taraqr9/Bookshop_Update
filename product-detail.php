@@ -5,6 +5,7 @@ if (!empty($_GET['bid'])) {
     $pd->productDetails($_GET['bid']);
 }
 
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -37,7 +38,12 @@ if (!empty($_GET['bid'])) {
     <!-- Nav Bar Start -->
     <?php include 'php/headnav.php'; ?>
     <!-- Nav Bar End -->
-
+    <?php
+        if(!empty($_SESSION['addCart'])){
+            echo $_SESSION['addCart'];
+            $_SESSION['addCart'] = "";
+        }
+    ?>
     <!-- Breadcrumb Start -->
     <div class="breadcrumb-wrap">
         <div class="container-fluid">
@@ -51,6 +57,7 @@ if (!empty($_GET['bid'])) {
     <!-- Breadcrumb End -->
 
     <!-- Product Detail Start -->
+    
     <div class="product-detail">
         <div class="container-fluid">
             <div class="row">
@@ -59,7 +66,7 @@ if (!empty($_GET['bid'])) {
                         <div class="row align-items-center">
                             <div class="col-md-5">
                                 <div class="product-slider-single normal-slider">
-                                    <img src="img/product-1.jpg" alt="Product Image">
+                                    <img src="<?php echo "assets/bookimg/".$pd->getImage();  ?>" alt="Product Image">
                                 </div>
                             </div>
                             <div class="col-md-7">
@@ -78,14 +85,7 @@ if (!empty($_GET['bid'])) {
                                         <h4>Price:</h4>
                                         <p><?php echo $pd->getPrice();  ?></p>
                                     </div>
-                                    <div class="quantity">
-                                        <h4>Quantity:</h4>
-                                        <div class="qty">
-                                            <button class="btn-minus"><i class="fa fa-minus"></i></button>
-                                            <input type="text" value="1">
-                                            <button class="btn-plus"><i class="fa fa-plus"></i></button>
-                                        </div>
-                                    </div>
+                                    
                                     <div class="p-size">
                                         <h4>Author:</h4>
                                         <span><?php echo $pd->getAuthor();  ?></span>
@@ -97,8 +97,8 @@ if (!empty($_GET['bid'])) {
                                     </div>
                                     <!-- FIXME addCart & buyNow  -->
                                     <div class="action">
-                                        <a class="btn" href="classes/sessionLog.php?addCart=1"><i class="fa fa-shopping-cart"></i>Add to Cart</a>
-                                        <a class="btn" href="classes/sessionLog.php?buyNow=1"><i class="fa fa-shopping-bag"></i>Buy Now</a>
+                                        <a class="btn" href="classes/sessionLog.php?addCart=<?php echo $pd->getId(); ?>"><i class="fa fa-shopping-cart"></i>Add to Cart</a>
+                                        <a class="btn" href="classes/sessionLog.php?buyNow=<?php echo $pd->getId(); ?>"><i class="fa fa-shopping-bag"></i>Buy Now</a>
                                     </div>
                                 </div>
                             </div>
@@ -335,6 +335,7 @@ if (!empty($_GET['bid'])) {
             </div>
         </div>
     </div>
+    
     <!-- Product Detail End -->
 
     <!-- Footer Start -->
