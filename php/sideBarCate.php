@@ -2,9 +2,10 @@
                     <div class="sidebar-widget category">
                         <h2 class="title">Category</h2>
                         <nav class="navbar bg-light">
+                        <form action="" method="POST">
                             <ul class="navbar-nav">
                                 <li class="nav-item">
-                                    <a href="#" class="dropdown-item"><i class="fas fa-child"></i>Comics</a>
+                                <i class="fas fa-child"></i><input type="submit" class="dropdown-item" value="Comics" name="comics">
                                 </li>
                                 <li class="nav-item">
                                     <a href="#" class="dropdown-item"><i class="fas fa-laptop"></i>Computers & Tech</a>
@@ -31,6 +32,7 @@
                                     <a href="#" class="dropdown-item"><i class="fas fa-microscope"></i>Science & Math</a>
                                 </li>
                             </ul>
+                            </form>
                         </nav>
                     </div>
 

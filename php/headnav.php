@@ -12,14 +12,16 @@
                     <div class="nav-item dropdown">
                         <a href="#" class="nav-link dropdown-toggle " data-toggle="dropdown" style="color: #61F1FF;">Category</a>
                         <div class="dropdown-menu">
-                            <a href="#" class="dropdown-item">Comics</a>
-                            <a href="#" class="dropdown-item">Computers & Tech</a>
-                            <a href="#" class="dropdown-item">Entertainment</a>
-                            <a href="#" class="dropdown-item">History</a>
-                            <a href="#" class="dropdown-item">Horror</a>
-                            <a href="#" class="dropdown-item">Literature & Fiction</a>
-                            <a href="#" class="dropdown-item">Religion</a>
-                            <a href="#" class="dropdown-item">Science & Math</a>
+                            <input type="submit" class="dropdown-item" value="Comics" name="comics">
+                            <input type="submit" class="dropdown-item" value="Computers & Tech" name="computer">
+                            <input type="submit" class="dropdown-item" value="Entertainment" name="entertainment">
+                            <input type="submit" class="dropdown-item" value="Health & Fitness" name="health">
+                            <input type="submit" class="dropdown-item" value="History" name="history">
+                            <input type="submit" class="dropdown-item" value="Horror" name="horror">
+                            <input type="submit" class="dropdown-item" value="Literature & Fiction" name="literature">
+                            <input type="submit" class="dropdown-item" value="Mysteries" name="mysteries">
+                            <input type="submit" class="dropdown-item" value="Religion" name="religion">
+                            <input type="submit" class="dropdown-item" value="Science & Math" name="science">
                         </div>
                     </div>
                     <a href="product-list.php" class="nav-item nav-link">Products</a>
