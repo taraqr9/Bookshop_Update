@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 01, 2021 at 07:31 PM
+-- Generation Time: Mar 05, 2021 at 08:45 PM
 -- Server version: 10.4.11-MariaDB
 -- PHP Version: 7.4.1
 
@@ -44,7 +44,7 @@ CREATE TABLE `books` (
 --
 
 INSERT INTO `books` (`id`, `name`, `author`, `publisher`, `price`, `description`, `category`, `image`) VALUES
-(1, 'name', 'author', 'publisher', 'price', 'description', 'categ', 'image'),
+(1, 'name', 'author', 'publisher', 'price', 'description', 'categ', '1.JPG'),
 (2, 'Trickster: Native American Tales: A Graphic Collection', 'Matt Dembicki', '	Fulcrum Group', '2558 BDT', 'This extraordinary graphic novel depicts traditional Native American trickster tales with inspired artists and native writers.', '1', '2.JPG'),
 (3, 'Marvel Studios Visual Dictionary', 'Adam Bray', '	DK ', '2948 BDT', 'Join Captain America, Thor, Iron Man, Black Widow, and the Guardians of the Galaxy on a stunning journey through the Marvel Cinematic Universe! DK is bringing its expertise in creating beautiful illustrated non-fiction to this modern pop culture phenomeno', '1', '3.JPG'),
 (4, 'The Comic Book Story of Professional Wrestling: A Hardcore, High-Flying, No-Holds-Barred History of the One True Sport', 'Aubrey, Moreno, Chris Sitterson', 'Ten Speed Press', '1450 BDT', 'From the host of the critically acclaimed pro wrestling podcast Straight Shoot , this graphic novel history of wrestling features the key grapplers, matches, and promotions that shaped this beloved sport and form of entertainment. As a pop culture phenome', '1', '4.JPG'),
@@ -149,6 +149,42 @@ INSERT INTO `books` (`id`, `name`, `author`, `publisher`, `price`, `description`
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `cart`
+--
+
+CREATE TABLE `cart` (
+  `id` int(11) NOT NULL,
+  `bid` int(11) NOT NULL,
+  `uid` int(11) NOT NULL,
+  `name` varchar(244) NOT NULL,
+  `category` int(11) NOT NULL,
+  `price` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `cart`
+--
+
+INSERT INTO `cart` (`id`, `bid`, `uid`, `name`, `category`, `price`) VALUES
+(1, 3, 1, 'Marvel Studios Visual Dictionary', 1, 2948),
+(2, 3, 1, 'Marvel Studios Visual Dictionary', 1, 2948),
+(3, 2, 1, 'Trickster: Native American Tales: A Graphic Collection', 1, 2558),
+(4, 2, 1, 'Trickster: Native American Tales: A Graphic Collection', 1, 2558),
+(5, 3, 1, 'Marvel Studios Visual Dictionary', 1, 2948),
+(6, 2, 1, 'Trickster: Native American Tales: A Graphic Collection', 1, 2558),
+(7, 2, 1, 'Trickster: Native American Tales: A Graphic Collection', 1, 2558),
+(8, 3, 1, 'Marvel Studios Visual Dictionary', 1, 2948),
+(9, 3, 1, 'Marvel Studios Visual Dictionary', 1, 2948),
+(10, 3, 1, 'Marvel Studios Visual Dictionary', 1, 2948),
+(11, 3, 1, 'Marvel Studios Visual Dictionary', 1, 2948),
+(12, 3, 1, 'Marvel Studios Visual Dictionary', 1, 2948),
+(13, 2, 1, 'Trickster: Native American Tales: A Graphic Collection', 1, 2558),
+(14, 2, 1, 'Trickster: Native American Tales: A Graphic Collection', 1, 2558),
+(15, 9, 1, 'My Neighbor Totoro Film Comic, Vol. 2', 1, 1402);
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `category`
 --
 
@@ -194,6 +230,23 @@ CREATE TABLE `order` (
   `status` varchar(10) NOT NULL DEFAULT 'Pending'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+--
+-- Dumping data for table `order`
+--
+
+INSERT INTO `order` (`oid`, `bid`, `uid`, `bname`, `qty`, `category`, `price`, `name`, `email`, `phone`, `address`, `status`) VALUES
+(1, 1, 1, '1', 1, 1, '1', '1', '1', '1', '1', '1'),
+(2, 2, 1, 'Trickster: Native American Tales: A Graphic Collection', 1, 1, '0', 'Taraq Rahman', 'taraqr9@gmail.com', '213', '351-A,west kazipara,mirpur,Dhaka', 'Pending'),
+(3, 2, 1, 'Trickster: Native American Tales: A Graphic Collection', 1, 1, '0', 'Taraq Rahman', 'taraqr9@gmail.com', '123', '351-A,west kazipara,mirpur,Dhaka', 'Pending'),
+(4, 2, 1, 'Trickster: Native American Tales: A Graphic Collection', 1, 1, '0', 'Taraq Rahman', 'taraqr9@gmail.com', '123', '351-A,west kazipara,mirpur,Dhaka', 'Pending'),
+(5, 2, 1, 'Trickster: Native American Tales: A Graphic Collection', 1, 1, '0', 'Taraq Rahman', 'taraqr9@gmail.com', '123', '351-A,west kazipara,mirpur,Dhaka', 'Pending'),
+(6, 2, 1, 'Trickster: Native American Tales: A Graphic Collection', 1, 1, '0', 'Taraq Rahman', 'taraqr9@gmail.com', '123', '351-A,west kazipara,mirpur,Dhaka', 'Pending'),
+(7, 2, 1, 'Trickster: Native American Tales: A Graphic Collection', 10, 1, '0', 'Taraq Rahman', 'taraqr9@gmail.com', '123', '351-A,west kazipara,mirpur,Dhaka', 'Pending'),
+(8, 2, 1, 'Trickster: Native American Tales: A Graphic Collection', 3, 1, '7674', 'Taraq Rahman', 'taraqr9@gmail.com', '123', '351-A,west kazipara,mirpur,Dhaka', 'Pending'),
+(9, 2, 1, 'Trickster: Native American Tales: A Graphic Collection', 10, 1, '0', 'Taraq Rahman', 'taraqr9@gmail.com', '123', '351-A,west kazipara,mirpur,Dhaka', 'Pending'),
+(10, 3, 1, 'Marvel Studios Visual Dictionary', 10, 1, '0', 'Taraq Rahman', 'taraqr9@gmail.com', '123', '351-A,west kazipara,mirpur,Dhaka', 'Pending'),
+(11, 3, 1, 'Marvel Studios Visual Dictionary', 10, 1, '29480', 'Taraq Rahman', 'taraqr9@gmail.com', '123', '351-A,west kazipara,mirpur,Dhaka', 'Pending');
+
 -- --------------------------------------------------------
 
 --
@@ -224,6 +277,18 @@ CREATE TABLE `user` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
+-- Dumping data for table `user`
+--
+
+INSERT INTO `user` (`id`, `name`, `email`, `password`, `phone`, `address`) VALUES
+(1, 'Taraq Rahman', 'taraqr9@gmail.com', '$2y$10$x8GjzxNk/JK/qAveg6ELuOZ0mnPcP/hiPwHkJzpE8EHoOzUYL2HqC', '+8801830539709', '351-A,west kazipara,mirpur,Dhaka'),
+(2, 'Taraq Rahman', 'taraqr9@gmail.com', '$2y$10$JEeC/6T1Puzh9Z/vzdq3DeBARbKKrzXcievyM2rMtyMWy8ctQkT72', '+8801830539709', '351-A,west kazipara,mirpur,Dhaka'),
+(3, 'Taraq Rahman', 'taraqr9@gmail.com', '$2y$10$PT1yUQEVUtWpP7Se2t20E.awafinPcADxEaUBD//AnMX/rrh7QJDK', '+8801830539709', '351-A,west kazipara,mirpur,Dhaka'),
+(4, 'Taraq Rahman', 'taraqr9@gmail.com', '$2y$10$Rn6BVP5OuVllQZB5x3DRhuvNyJaLXw6Pq5t9Tocj8W/7Z5vky.Siy', '+8801830539709', '351-A,west kazipara,mirpur,Dhaka'),
+(5, 'Taraq Rahman', 'taraqr9@gmail.com', '$2y$10$O8Bdso4/8cyi4Z1SVBbVuekti7J59D05bJdIqFlftvUofEx4Cp3Dm', '+8801830539709', '351-A,west kazipara,mirpur,Dhaka'),
+(6, 'Taraq Rahman', 'taraqr9@gmail.com', '$2y$10$16p0Y5yBNT61S3Ts85WxruaWMmZmTmNIYiy34ec.MwUbaxVbOhtFu', '+8801830539709', '351-A,west kazipara,mirpur,Dhaka');
+
+--
 -- Indexes for dumped tables
 --
 
@@ -231,6 +296,12 @@ CREATE TABLE `user` (
 -- Indexes for table `books`
 --
 ALTER TABLE `books`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `cart`
+--
+ALTER TABLE `cart`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -268,6 +339,12 @@ ALTER TABLE `books`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=102;
 
 --
+-- AUTO_INCREMENT for table `cart`
+--
+ALTER TABLE `cart`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+
+--
 -- AUTO_INCREMENT for table `category`
 --
 ALTER TABLE `category`
@@ -277,7 +354,7 @@ ALTER TABLE `category`
 -- AUTO_INCREMENT for table `order`
 --
 ALTER TABLE `order`
-  MODIFY `oid` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `oid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT for table `review`
@@ -289,7 +366,7 @@ ALTER TABLE `review`
 -- AUTO_INCREMENT for table `user`
 --
 ALTER TABLE `user`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
