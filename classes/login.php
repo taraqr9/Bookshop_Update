@@ -23,5 +23,7 @@ class login{
         $name = $details->name;
         return $name;
     }
+
+    
 }
 ?>

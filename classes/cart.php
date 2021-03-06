@@ -16,6 +16,12 @@
             }
             
         }
+        public function onCart($logId){
+            $source = new source();
+            $source->Query("SELECT * from `cart` where uid = ?",[$logId]);
+            $details = $source->FetchAll();
+            return $source->CountRows();
+        }
             
     }
 ?>

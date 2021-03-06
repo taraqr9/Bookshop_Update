@@ -95,7 +95,6 @@ if (!empty($_GET['bid'])) {
                                         <h4>Publisher:</h4>
                                         <span><?php echo $pd->getPublisher();  ?></span>
                                     </div>
-                                    <!-- FIXME addCart & buyNow  -->
                                     <div class="action">
                                         <a class="btn" href="classes/sessionLog.php?addCart=<?php echo $pd->getId(); ?>"><i class="fa fa-shopping-cart"></i>Add to Cart</a>
                                         <a class="btn" href="classes/sessionLog.php?buyNow=<?php echo $pd->getId(); ?>"><i class="fa fa-shopping-bag"></i>Buy Now</a>

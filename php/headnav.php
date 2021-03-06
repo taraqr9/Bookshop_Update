@@ -1,3 +1,6 @@
+<?php
+    $countCart = new cart(); 
+?>
 <div class="nav">
     <div class="container-fluid">
         <nav class="navbar navbar-expand-md bg-dark navbar-dark">
@@ -12,16 +15,18 @@
                     <div class="nav-item dropdown">
                         <a href="#" class="nav-link dropdown-toggle " data-toggle="dropdown" style="color: #61F1FF;">Category</a>
                         <div class="dropdown-menu">
-                            <input type="submit" class="dropdown-item" value="Comics" name="comics">
-                            <input type="submit" class="dropdown-item" value="Computers & Tech" name="computer">
-                            <input type="submit" class="dropdown-item" value="Entertainment" name="entertainment">
-                            <input type="submit" class="dropdown-item" value="Health & Fitness" name="health">
-                            <input type="submit" class="dropdown-item" value="History" name="history">
-                            <input type="submit" class="dropdown-item" value="Horror" name="horror">
-                            <input type="submit" class="dropdown-item" value="Literature & Fiction" name="literature">
-                            <input type="submit" class="dropdown-item" value="Mysteries" name="mysteries">
-                            <input type="submit" class="dropdown-item" value="Religion" name="religion">
-                            <input type="submit" class="dropdown-item" value="Science & Math" name="science">
+                            <form action="product-list.php" method="POST">
+                                <input type="submit" class="dropdown-item" value="Comics" name="comics">
+                                <input type="submit" class="dropdown-item" value="Computers & Tech" name="computer">
+                                <input type="submit" class="dropdown-item" value="Entertainment" name="entertainment">
+                                <input type="submit" class="dropdown-item" value="Health & Fitness" name="health">
+                                <input type="submit" class="dropdown-item" value="History" name="history">
+                                <input type="submit" class="dropdown-item" value="Horror" name="horror">
+                                <input type="submit" class="dropdown-item" value="Literature & Fiction" name="literature">
+                                <input type="submit" class="dropdown-item" value="Mysteries" name="mysteries">
+                                <input type="submit" class="dropdown-item" value="Religion" name="religion">
+                                <input type="submit" class="dropdown-item" value="Science & Math" name="science">
+                            </form>
                         </div>
                     </div>
                     <a href="product-list.php" class="nav-item nav-link">Products</a>
@@ -45,7 +50,7 @@
                     echo "
                             <div class='navbar-nav ml-auto'>
                                             <div class='nav-item dropdown'>
-                                                <a href='#' class='nav-link text-white dropdown-toggle' data-toggle='dropdown'>".$_SESSION['login_success']."</a>
+                                                <a href='#' class='nav-link text-white dropdown-toggle' data-toggle='dropdown'>" . $_SESSION['login_success'] . "</a>
                                                 <div class='dropdown-menu'>
                                                     <a href='my-account.php' class='dropdown-item'>My Account</a>
                                                     <a href='cart.php' class='dropdown-item'>Cart</a>
@@ -82,13 +87,9 @@
             </div>
             <div class="col-md-3">
                 <div class="user">
-                    <a href="wishlist.html" class="btn wishlist">
-                        <i class="fa fa-heart"></i>
-                        <span>(0)</span>
-                    </a>
-                    <a href="cart.html" class="btn cart">
+                    <a href="cart.php" class="btn cart">
                         <i class="fa fa-shopping-cart"></i>
-                        <span>(0)</span>
+                        <span>(<?php echo $countCart->onCart($_SESSION['logId']); ?>)</span>
                     </a>
                 </div>
             </div>

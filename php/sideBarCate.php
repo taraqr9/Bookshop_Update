@@ -4,32 +4,39 @@
                         <nav class="navbar bg-light">
                         <form action="" method="POST">
                             <ul class="navbar-nav">
-                                <li class="nav-item">
-                                <i class="fas fa-child"></i><input type="submit" class="dropdown-item" value="Comics" name="comics">
+                            <li class="nav-item">
+                                    <a href="product-list.php?id=1" class="dropdown-item"><i class="fas fa-child"></i>Comics</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="#" class="dropdown-item"><i class="fas fa-laptop"></i>Computers & Tech</a>
+                                    <a href="product-list.php?id=2" class="dropdown-item"><i class="fas fa-laptop"></i>Computers & Tech</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="#" class="dropdown-item"><i class="fas fa-filter"></i>Entertainment</a>
+                                    <a href="product-list.php?id=3" class="dropdown-item"><i class="fas fa-filter"></i>Entertainment</a>
 
                                 </li>
                                 <li class="nav-item">
-                                    <a href="#" class="dropdown-item"><i class="fas fa-history"></i>History</a>
+                                    <a href="product-list.php?id=4" class="dropdown-item"><i class="fas fa-filter"></i>Health & Fitness</a>
 
                                 </li>
                                 <li class="nav-item">
-                                    <a href="#" class="dropdown-item"><i class="fas fa-meteor"></i>Horror</a>
+                                    <a href="product-list.php?id=5" class="dropdown-item"><i class="fas fa-history"></i>History</a>
 
                                 </li>
                                 <li class="nav-item">
-                                    <a href="#" class="dropdown-item"><i class="fas fa-user-astronaut"></i>literatureLiterature & Fiction</a>
+                                    <a href="product-list.php?id=6" class="dropdown-item"><i class="fas fa-meteor"></i>Horror</a>
+
                                 </li>
                                 <li class="nav-item">
-                                    <a href="#" class="dropdown-item"><i class="fas fa-star-of-david"></i>Religion</a>
+                                    <a href="product-list.php?id=7" class="dropdown-item"><i class="fas fa-user-astronaut"></i>literatureLiterature & Fiction</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="#" class="dropdown-item"><i class="fas fa-microscope"></i>Science & Math</a>
+                                    <a href="product-list.php?id=8" class="dropdown-item"><i class="fas fa-star-of-david"></i>Mysteries</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="product-list.php?id=9" class="dropdown-item"><i class="fas fa-star-of-david"></i>Religion</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="product-list.php?id=10" class="dropdown-item"><i class="fas fa-microscope"></i>Science & Math</a>
                                 </li>
                             </ul>
                             </form>

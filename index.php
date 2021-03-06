@@ -30,8 +30,9 @@ include "init.php";
     <body>
         
         <!-- Nav Bar Start -->
-        <form method="POST">
         <?php include 'php/headnav.php'; ?>
+        <form method="POST">
+        
         <!-- Nav Bar End -->      
         
         

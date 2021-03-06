@@ -1,5 +1,9 @@
 <?php
 include "init.php";
+$cart = new cart();
+if(isset($_GET['bookid'])){
+    $cart->addCart($_GET['bookid']);
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -31,21 +35,15 @@ include "init.php";
 
 
     <!-- Nav Bar Start -->
-    <form action="" method="POST"><?php include 'php/headnav.php'; ?></form>
+    <?php include 'php/headnav.php'; ?>
     <!-- Nav Bar End -->
 
-
-    <!-- Breadcrumb Start -->
-    <div class="breadcrumb-wrap">
-        <div class="container-fluid">
-            <ul class="breadcrumb">
-                <li class="breadcrumb-item"><a href="#">Home</a></li>
-                <li class="breadcrumb-item"><a href="#">Products</a></li>
-                <li class="breadcrumb-item active">Product List</li>
-            </ul>
-        </div>
-    </div>
-    <!-- Breadcrumb End -->
+    <?php
+    if(!empty($_SESSION['addCart'])){
+        echo $_SESSION['addCart'];
+        $_SESSION['addCart'] = '';
+    }
+    ?>
 
     <!-- Product List Start -->
     <div class="product-view">
@@ -56,25 +54,25 @@ include "init.php";
                         
                         
                         <?php 
-                            if(isset($_POST['comics'])){
+                            if(isset($_POST['comics']) || !empty($_GET['id']) && $_GET['id']==1){
                                 $query = $source->Query("SELECT * FROM books where category = 1");
-                            }elseif(isset($_POST['computer'])){
+                            }elseif(isset($_POST['computer']) || !empty($_GET['id']) &&  $_GET['id']==2){
                                 $query = $source->Query("SELECT * FROM books where category = 2");
-                            }elseif(isset($_POST['entertainment'])){
+                            }elseif(isset($_POST['entertainment']) || !empty($_GET['id']) &&  $_GET['id']==3){
                                 $query = $source->Query("SELECT * FROM books where category = 3");
-                            }elseif(isset($_POST['health'])){
+                            }elseif(isset($_POST['health']) || !empty($_GET['id']) &&  $_GET['id']==4){
                                 $query = $source->Query("SELECT * FROM books where category = 4");
-                            }elseif(isset($_POST['history'])){
+                            }elseif(isset($_POST['history']) || !empty($_GET['id']) &&  $_GET['id']==5){
                                 $query = $source->Query("SELECT * FROM books where category = 5");
-                            }elseif(isset($_POST['horror'])){
+                            }elseif(isset($_POST['horror']) || !empty($_GET['id']) &&  $_GET['id']==6){
                                 $query = $source->Query("SELECT * FROM books where category = 6");
-                            }elseif(isset($_POST['literature'])){
+                            }elseif(isset($_POST['literature']) || !empty($_GET['id']) &&  $_GET['id']==7){
                                 $query = $source->Query("SELECT * FROM books where category = 7");
-                            }elseif(isset($_POST['mysteries'])){
+                            }elseif(isset($_POST['mysteries']) || !empty($_GET['id']) &&  $_GET['id']==8){
                                 $query = $source->Query("SELECT * FROM books where category = 8");
-                            }elseif(isset($_POST['religion'])){
+                            }elseif(isset($_POST['religion']) || !empty($_GET['id']) &&  $_GET['id']==9){
                                 $query = $source->Query("SELECT * FROM books where category = 9");
-                            }elseif(isset($_POST['science'])){
+                            }elseif(isset($_POST['science']) || !empty($_GET['id']) &&  $_GET['id']==10){
                                 $query = $source->Query("SELECT * FROM books where category = 10");
                             }else{
                                 $query = $source->Query("SELECT * FROM books");
@@ -102,8 +100,7 @@ include "init.php";
                                             <img src='assets/bookimg/".$row->image."' style='height:400px;width:400px;' alt='Product Image'>
                                         </a>
                                         <div class='product-action'>
-                                            <a href='#'><i class='fa fa-cart-plus'></i></a>
-                                            <a href='#'><i class='fa fa-heart'></i></a>
+                                            <a href='product-list.php?bookid=".$row->id."'><i class='fa fa-cart-plus'></i></a>
                                         </div>
                                     </div>
                                     <div class='product-price'>
@@ -120,7 +117,6 @@ include "init.php";
                     </div>
                 </div>
                 <!-- Side Bar Start -->
-                <!-- FIXME -->
                 <?php include 'php/sideBarCate.php' ?>
                 <!-- Side Bar End -->
             </div>
