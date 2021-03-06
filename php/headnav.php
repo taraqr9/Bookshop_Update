@@ -1,5 +1,5 @@
 <?php
-    $countCart = new cart(); 
+$countCart = new cart();
 ?>
 <div class="nav">
     <div class="container-fluid">
@@ -89,7 +89,9 @@
                 <div class="user">
                     <a href="cart.php" class="btn cart">
                         <i class="fa fa-shopping-cart"></i>
-                        <span>(<?php echo $countCart->onCart($_SESSION['logId']); ?>)</span>
+                        <span>(<?php if (!empty($_SESSION['logId'])) {
+                                    echo $countCart->onCart($_SESSION['logId']);
+                                }else{echo '0';}  ?>)</span>
                     </a>
                 </div>
             </div>

@@ -1,4 +1,5 @@
 <?php
+
 include "init.php";
 $pd = new productdetail();
 if (!empty($_GET['bid'])) {
@@ -6,6 +7,35 @@ if (!empty($_GET['bid'])) {
 }
 
 
+?>
+
+<?php
+// $conn = new mysqli('localhost', 'root', '', 'bookshop');
+
+if (isset($_POST['save'])) {
+    $uID = $_SESSION['logId'];
+    $ratedIndex = $conn->real_escape_string($_POST['ratedIndex']);
+    $ratedIndex++;
+
+    if (!$uID) {
+        $source->Query("INSERT INTO review (bid,uid,score) VALUES (?,?,?)",[$_GET['bid'],$_SESSION['logId'],$ratedIndex]);
+        $sql = $source->Query("SELECT uid FROM review ORDER BY uid DESC LIMIT 1");
+        $uData = $source->SingleRow();
+        $uID = $uData->uid;
+    } else
+        $source->Query("UPDATE review SET score='$ratedIndex' WHERE uid like $uID and bid like ?",[$_GET['bid']]);
+
+    exit(json_encode(array('uid' => $uID)));
+}
+
+$sql = $source->Query("SELECT uid FROM review");
+$numR = $source->CountRows();
+
+$sql = $source->Query("SELECT SUM(score) AS total FROM review");
+$rData = $source->SingleRow();
+$total = $rData->total;
+
+$avg = $total / $numR;
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -39,10 +69,10 @@ if (!empty($_GET['bid'])) {
     <?php include 'php/headnav.php'; ?>
     <!-- Nav Bar End -->
     <?php
-        if(!empty($_SESSION['addCart'])){
-            echo $_SESSION['addCart'];
-            $_SESSION['addCart'] = "";
-        }
+    if (!empty($_SESSION['addCart'])) {
+        echo $_SESSION['addCart'];
+        $_SESSION['addCart'] = "";
+    }
     ?>
     <!-- Breadcrumb Start -->
     <div class="breadcrumb-wrap">
@@ -57,7 +87,7 @@ if (!empty($_GET['bid'])) {
     <!-- Breadcrumb End -->
 
     <!-- Product Detail Start -->
-    
+
     <div class="product-detail">
         <div class="container-fluid">
             <div class="row">
@@ -66,7 +96,7 @@ if (!empty($_GET['bid'])) {
                         <div class="row align-items-center">
                             <div class="col-md-5">
                                 <div class="product-slider-single normal-slider">
-                                    <img src="<?php echo "assets/bookimg/".$pd->getImage();  ?>" alt="Product Image">
+                                    <img src="<?php echo "assets/bookimg/" . $pd->getImage();  ?>" alt="Product Image">
                                 </div>
                             </div>
                             <div class="col-md-7">
@@ -74,18 +104,20 @@ if (!empty($_GET['bid'])) {
                                     <div class="title">
                                         <h2><?php echo $pd->getName();  ?></h2>
                                     </div>
-                                    <div class="ratting">
-                                        <i class="fa fa-star"></i>
-                                        <i class="fa fa-star"></i>
-                                        <i class="fa fa-star"></i>
-                                        <i class="fa fa-star"></i>
-                                        <i class="fa fa-star"></i>
-                                    </div>
+                                    <!-- <div>
+                                        <i class="fa fa-star fa-2x" data-index="0"></i>
+                                        <i class="fa fa-star fa-2x" data-index="1"></i>
+                                        <i class="fa fa-star fa-2x" data-index="2"></i>
+                                        <i class="fa fa-star fa-2x" data-index="3"></i>
+                                        <i class="fa fa-star fa-2x" data-index="4"></i>
+                                        <br><br>
+                                        <?php echo round($avg, 2) ?>
+                                    </div> -->
                                     <div class="price">
                                         <h4>Price:</h4>
                                         <p><?php echo $pd->getPrice();  ?></p>
                                     </div>
-                                    
+
                                     <div class="p-size">
                                         <h4>Author:</h4>
                                         <span><?php echo $pd->getAuthor();  ?></span>
@@ -110,9 +142,6 @@ if (!empty($_GET['bid'])) {
                                 <li class="nav-item">
                                     <a class="nav-link active" data-toggle="pill" href="#description">Description</a>
                                 </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" data-toggle="pill" href="#specification">Specification</a>
-                                </li>
                                 <li class="nav-item ">
                                     <a class="nav-link " data-toggle="pill" href="#reviews">Reviews (1)</a>
                                 </li>
@@ -122,42 +151,35 @@ if (!empty($_GET['bid'])) {
                                 <div id="description" class="container tab-pane active">
                                     <h4>Product description</h4>
                                     <p>
-                                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. In condimentum quam ac mi viverra dictum. In efficitur ipsum diam, at dignissim lorem tempor in. Vivamus tempor hendrerit finibus. Nulla tristique viverra nisl, sit amet bibendum ante suscipit non. Praesent in faucibus tellus, sed gravida lacus. Vivamus eu diam eros. Aliquam et sapien eget arcu rhoncus scelerisque. Suspendisse sit amet neque neque. Praesent suscipit et magna eu iaculis. Donec arcu libero, commodo ac est a, malesuada finibus dolor. Aenean in ex eu velit semper fermentum. In leo dui, aliquet sit amet eleifend sit amet, varius in turpis. Maecenas fermentum ut ligula at consectetur. Nullam et tortor leo.
+                                        <?php echo $pd->getDescription(); ?>
                                     </p>
                                 </div>
-                                <div id="specification" class="container tab-pane fade">
-                                    <h4>Product specification</h4>
-                                    <ul>
-                                        <li>Lorem ipsum dolor sit amet</li>
-                                        <li>Lorem ipsum dolor sit amet</li>
-                                        <li>Lorem ipsum dolor sit amet</li>
-                                        <li>Lorem ipsum dolor sit amet</li>
-                                        <li>Lorem ipsum dolor sit amet</li>
-                                    </ul>
-                                </div>
+
                                 <div id="reviews" class="container tab-pane fade">
                                     <div class="reviews-submitted">
                                         <div class="reviewer">Phasellus Gravida - <span>01 Jan 2020</span></div>
-                                        <div class="ratting">
+                                        <!-- <div class="ratting">
                                             <i class="fa fa-star"></i>
                                             <i class="fa fa-star"></i>
                                             <i class="fa fa-star"></i>
                                             <i class="fa fa-star"></i>
                                             <i class="fa fa-star"></i>
-                                        </div>
+                                        </div> -->
                                         <p>
                                             Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam.
                                         </p>
                                     </div>
                                     <div class="reviews-submit">
                                         <h4>Give your Review:</h4>
-                                        <div class="ratting">
-                                            <i class="far fa-star"></i>
-                                            <i class="far fa-star"></i>
-                                            <i class="far fa-star"></i>
-                                            <i class="far fa-star"></i>
-                                            <i class="far fa-star"></i>
-                                        </div>
+                                        <div>
+                                        <i class="fa fa-star fa-2x" data-index="0"></i>
+                                        <i class="fa fa-star fa-2x" data-index="1"></i>
+                                        <i class="fa fa-star fa-2x" data-index="2"></i>
+                                        <i class="fa fa-star fa-2x" data-index="3"></i>
+                                        <i class="fa fa-star fa-2x" data-index="4"></i>
+                                        <br><br>
+                                        <?php echo round($avg, 2) ?>
+                                    </div>
                                         <div class="row form">
                                             <div class="col-sm-6">
                                                 <input type="text" placeholder="Name">
@@ -334,7 +356,7 @@ if (!empty($_GET['bid'])) {
             </div>
         </div>
     </div>
-    
+
     <!-- Product Detail End -->
 
     <!-- Footer Start -->
@@ -352,6 +374,67 @@ if (!empty($_GET['bid'])) {
 
     <!-- Template Javascript -->
     <script src="js/main.js"></script>
+
+    <!-- Rating -->
+    <script src="http://code.jquery.com/jquery-3.4.0.min.js" integrity="sha256-BJeo0qm959uMBGb65z40ejJYGSgR7REI4+CW1fNKwOg=" crossorigin="anonymous"></script>
+    <script>
+        var ratedIndex = -1,
+            uID = 0;
+
+        $(document).ready(function() {
+            resetStarColors();
+
+            if (localStorage.getItem('ratedIndex') != null) {
+                setStars(parseInt(localStorage.getItem('ratedIndex')));
+                uID = localStorage.getItem('uID');
+            }
+
+            $('.fa-star').on('click', function() {
+                ratedIndex = parseInt($(this).data('index'));
+                localStorage.setItem('ratedIndex', ratedIndex);
+                saveToTheDB();
+            });
+
+            $('.fa-star').mouseover(function() {
+                resetStarColors();
+                var currentIndex = parseInt($(this).data('index'));
+                setStars(currentIndex);
+            });
+
+            $('.fa-star').mouseleave(function() {
+                resetStarColors();
+
+                if (ratedIndex != -1)
+                    setStars(ratedIndex);
+            });
+        });
+
+        function saveToTheDB() {
+            $.ajax({
+                url: "index.php",
+                method: "POST",
+                dataType: 'json',
+                data: {
+                    save: 1,
+                    uID: uID,
+                    ratedIndex: ratedIndex
+                },
+                success: function(r) {
+                    uID = r.id;
+                    localStorage.setItem('uID', uID);
+                }
+            });
+        }
+
+        function setStars(max) {
+            for (var i = 0; i <= max; i++)
+                $('.fa-star:eq(' + i + ')').css('color', 'gold');
+        }
+
+        function resetStarColors() {
+            $('.fa-star').css('color', 'gray');
+        }
+    </script>
 </body>
 
 </html>
