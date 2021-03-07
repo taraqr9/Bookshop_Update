@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 05, 2021 at 08:45 PM
+-- Generation Time: Mar 07, 2021 at 08:40 PM
 -- Server version: 10.4.11-MariaDB
 -- PHP Version: 7.4.1
 
@@ -166,21 +166,10 @@ CREATE TABLE `cart` (
 --
 
 INSERT INTO `cart` (`id`, `bid`, `uid`, `name`, `category`, `price`) VALUES
-(1, 3, 1, 'Marvel Studios Visual Dictionary', 1, 2948),
-(2, 3, 1, 'Marvel Studios Visual Dictionary', 1, 2948),
-(3, 2, 1, 'Trickster: Native American Tales: A Graphic Collection', 1, 2558),
-(4, 2, 1, 'Trickster: Native American Tales: A Graphic Collection', 1, 2558),
-(5, 3, 1, 'Marvel Studios Visual Dictionary', 1, 2948),
-(6, 2, 1, 'Trickster: Native American Tales: A Graphic Collection', 1, 2558),
-(7, 2, 1, 'Trickster: Native American Tales: A Graphic Collection', 1, 2558),
-(8, 3, 1, 'Marvel Studios Visual Dictionary', 1, 2948),
-(9, 3, 1, 'Marvel Studios Visual Dictionary', 1, 2948),
-(10, 3, 1, 'Marvel Studios Visual Dictionary', 1, 2948),
-(11, 3, 1, 'Marvel Studios Visual Dictionary', 1, 2948),
-(12, 3, 1, 'Marvel Studios Visual Dictionary', 1, 2948),
-(13, 2, 1, 'Trickster: Native American Tales: A Graphic Collection', 1, 2558),
-(14, 2, 1, 'Trickster: Native American Tales: A Graphic Collection', 1, 2558),
-(15, 9, 1, 'My Neighbor Totoro Film Comic, Vol. 2', 1, 1402);
+(25, 3, 1, 'Marvel Studios Visual Dictionary', 1, 2948),
+(26, 2, 1, 'Trickster: Native American Tales: A Graphic Collection', 1, 2558),
+(27, 5, 1, 'Cult Fiction: Art & Comics', 1, 2167),
+(28, 9, 1, 'My Neighbor Totoro Film Comic, Vol. 2', 1, 1402);
 
 -- --------------------------------------------------------
 
@@ -219,6 +208,7 @@ CREATE TABLE `order` (
   `oid` int(11) NOT NULL,
   `bid` int(11) NOT NULL,
   `uid` int(11) NOT NULL,
+  `date` date NOT NULL DEFAULT current_timestamp(),
   `bname` varchar(255) NOT NULL,
   `qty` int(11) NOT NULL,
   `category` int(11) NOT NULL,
@@ -234,18 +224,28 @@ CREATE TABLE `order` (
 -- Dumping data for table `order`
 --
 
-INSERT INTO `order` (`oid`, `bid`, `uid`, `bname`, `qty`, `category`, `price`, `name`, `email`, `phone`, `address`, `status`) VALUES
-(1, 1, 1, '1', 1, 1, '1', '1', '1', '1', '1', '1'),
-(2, 2, 1, 'Trickster: Native American Tales: A Graphic Collection', 1, 1, '0', 'Taraq Rahman', 'taraqr9@gmail.com', '213', '351-A,west kazipara,mirpur,Dhaka', 'Pending'),
-(3, 2, 1, 'Trickster: Native American Tales: A Graphic Collection', 1, 1, '0', 'Taraq Rahman', 'taraqr9@gmail.com', '123', '351-A,west kazipara,mirpur,Dhaka', 'Pending'),
-(4, 2, 1, 'Trickster: Native American Tales: A Graphic Collection', 1, 1, '0', 'Taraq Rahman', 'taraqr9@gmail.com', '123', '351-A,west kazipara,mirpur,Dhaka', 'Pending'),
-(5, 2, 1, 'Trickster: Native American Tales: A Graphic Collection', 1, 1, '0', 'Taraq Rahman', 'taraqr9@gmail.com', '123', '351-A,west kazipara,mirpur,Dhaka', 'Pending'),
-(6, 2, 1, 'Trickster: Native American Tales: A Graphic Collection', 1, 1, '0', 'Taraq Rahman', 'taraqr9@gmail.com', '123', '351-A,west kazipara,mirpur,Dhaka', 'Pending'),
-(7, 2, 1, 'Trickster: Native American Tales: A Graphic Collection', 10, 1, '0', 'Taraq Rahman', 'taraqr9@gmail.com', '123', '351-A,west kazipara,mirpur,Dhaka', 'Pending'),
-(8, 2, 1, 'Trickster: Native American Tales: A Graphic Collection', 3, 1, '7674', 'Taraq Rahman', 'taraqr9@gmail.com', '123', '351-A,west kazipara,mirpur,Dhaka', 'Pending'),
-(9, 2, 1, 'Trickster: Native American Tales: A Graphic Collection', 10, 1, '0', 'Taraq Rahman', 'taraqr9@gmail.com', '123', '351-A,west kazipara,mirpur,Dhaka', 'Pending'),
-(10, 3, 1, 'Marvel Studios Visual Dictionary', 10, 1, '0', 'Taraq Rahman', 'taraqr9@gmail.com', '123', '351-A,west kazipara,mirpur,Dhaka', 'Pending'),
-(11, 3, 1, 'Marvel Studios Visual Dictionary', 10, 1, '29480', 'Taraq Rahman', 'taraqr9@gmail.com', '123', '351-A,west kazipara,mirpur,Dhaka', 'Pending');
+INSERT INTO `order` (`oid`, `bid`, `uid`, `date`, `bname`, `qty`, `category`, `price`, `name`, `email`, `phone`, `address`, `status`) VALUES
+(4, 2, 1, '2021-03-06', 'Trickster: Native American Tales: A Graphic Collection', 1, 1, '0', 'Taraq Rahman', 'taraqr9@gmail.com', '123', '351-A,west kazipara,mirpur,Dhaka', 'Pending'),
+(6, 2, 1, '2021-03-06', 'Trickster: Native American Tales: A Graphic Collection', 1, 1, '0', 'Taraq Rahman', 'taraqr9@gmail.com', '123', '351-A,west kazipara,mirpur,Dhaka', 'Pending'),
+(26, 3, 1, '2021-03-06', 'Marvel Studios Visual Dictionary', 1, 1, '2948 BDT', 'Taraq Rahman', 'taraqr9@gmail.com', '123', '351-A,west kazipara,mirpur,Dhaka', 'Pending'),
+(27, 2, 1, '2021-03-06', 'Trickster: Native American Tales: A Graphic Collection', 1, 1, '2558 BDT', 'Taraq Rahman', 'taraqr9@gmail.com', '123', '351-A,west kazipara,mirpur,Dhaka', 'Pending'),
+(28, 2, 1, '2021-03-06', 'Trickster: Native American Tales: A Graphic Collection', 1, 1, '2558 BDT', 'Taraq Rahman', 'taraqr9@gmail.com', '123', '351-A,west kazipara,mirpur,Dhaka', 'Pending'),
+(29, 9, 1, '2021-03-06', 'My Neighbor Totoro Film Comic, Vol. 2', 1, 1, '1402 BDT', 'Taraq Rahman', 'taraqr9@gmail.com', '123', '351-A,west kazipara,mirpur,Dhaka', 'Pending'),
+(30, 3, 1, '2021-03-06', 'Marvel Studios Visual Dictionary', 1, 1, '2948 BDT', 'Taraq Rahman', 'taraqr9@gmail.com', '111111', '351-A,west kazipara,mirpur,Dhaka', 'Pending'),
+(31, 2, 1, '2021-03-06', 'Trickster: Native American Tales: A Graphic Collection', 1, 1, '2558 BDT', 'Taraq Rahman', 'taraqr9@gmail.com', '111111', '351-A,west kazipara,mirpur,Dhaka', 'Pending'),
+(32, 3, 1, '2021-03-06', 'Marvel Studios Visual Dictionary', 1, 1, '2948 BDT', 'Taraq Rahman', 'taraqr9@gmail.com', '111111', '351-A,west kazipara,mirpur,Dhaka', 'Pending'),
+(33, 2, 1, '2021-03-06', 'Trickster: Native American Tales: A Graphic Collection', 1, 1, '2558 BDT', 'Taraq Rahman', 'taraqr9@gmail.com', '111111', '351-A,west kazipara,mirpur,Dhaka', 'Pending'),
+(34, 2, 1, '2021-03-06', 'Trickster: Native American Tales: A Graphic Collection', 1, 1, '2558 BDT', 'Taraq Rahman', 'taraqr9@gmail.com', '111111', '351-A,west kazipara,mirpur,Dhaka', 'Pending'),
+(35, 9, 1, '2021-03-06', 'My Neighbor Totoro Film Comic, Vol. 2', 1, 1, '1402 BDT', 'Taraq Rahman', 'taraqr9@gmail.com', '111111', '351-A,west kazipara,mirpur,Dhaka', 'Pending'),
+(36, 44, 1, '2021-03-06', 'Scribbling the Cat: Travels with an African Soldier', 1, 5, '859 BDT', 'Taraq Rahman', 'taraqr9@gmail.com', '123123', '351-A,west kazipara,mirpur,Dhaka', 'Pending'),
+(37, 42, 1, '2021-03-06', 'The White Nile', 1, 5, '1112 BDT', 'Taraq Rahman', 'taraqr9@gmail.com', '123123', '351-A,west kazipara,mirpur,Dhaka', 'Pending'),
+(38, 43, 1, '2021-03-06', 'Kaffir Boy: The True Story of a Black Youth\'s Coming of Age in Apartheid South Africa', 1, 5, '1036 BDT', 'Taraq Rahman', 'taraqr9@gmail.com', '123123', '351-A,west kazipara,mirpur,Dhaka', 'Pending'),
+(39, 43, 1, '2021-03-06', 'Kaffir Boy: The True Story of a Black Youth\'s Coming of Age in Apartheid South Africa', 1, 5, '1036 BDT', 'Taraq Rahman', 'taraqr9@gmail.com', '123', '351-A,west kazipara,mirpur,Dhaka', 'Pending'),
+(40, 3, 1, '2021-03-06', 'Marvel Studios Visual Dictionary', 1, 1, '2948 BDT', 'Taraq Rahman', 'taraqr9@gmail.com', '123', '351-A,west kazipara,mirpur,Dhaka', 'Pending'),
+(41, 2, 1, '2021-03-06', 'Trickster: Native American Tales: A Graphic Collection', 1, 1, '2558 BDT', 'Taraq Rahman', 'taraqr9@gmail.com', '123', '351-A,west kazipara,mirpur,Dhaka', 'Pending'),
+(42, 2, 1, '2021-03-06', 'Trickster: Native American Tales: A Graphic Collection', 1, 1, '2558 BDT', 'Taraq Rahman', 'taraqr9@gmail.com', '123', '351-A,west kazipara,mirpur,Dhaka', 'Pending'),
+(43, 2, 1, '2021-03-06', 'Trickster: Native American Tales: A Graphic Collection', 1, 1, '2558 BDT', 'Taraq Rahman', 'taraqr9@gmail.com', '123', '351-A,west kazipara,mirpur,Dhaka', 'Pending'),
+(44, 3, 1, '2021-03-06', 'Marvel Studios Visual Dictionary', 1, 1, '2948 BDT', 'Taraq Rahman', 'taraqr9@gmail.com', '123', '351-A,west kazipara,mirpur,Dhaka', 'Pending');
 
 -- --------------------------------------------------------
 
@@ -257,9 +257,28 @@ CREATE TABLE `review` (
   `id` int(11) NOT NULL,
   `bid` int(11) NOT NULL,
   `uid` int(11) NOT NULL,
-  `score` int(11) NOT NULL,
+  `score` float NOT NULL,
   `comment` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `review`
+--
+
+INSERT INTO `review` (`id`, `bid`, `uid`, `score`, `comment`) VALUES
+(2, 2, 2, 2, 'Low'),
+(3, 2, 3, 5, 'Awesome'),
+(4, 2, 4, 4, 'Medimum'),
+(5, 2, 5, 2, 'LOW'),
+(6, 2, 6, 4, 'Medimum'),
+(7, 2, 7, 5, 'Awesome'),
+(8, 2, 8, 3, 'Medimum'),
+(9, 2, 9, 3, 'Medimum'),
+(10, 2, 10, 3, 'Medimum'),
+(11, 2, 11, 3, 'Medimum'),
+(12, 2, 12, 3, 'Medimum'),
+(13, 2, 1, 0.6, 'bad'),
+(14, 9, 1, 1.5, 'Nice book');
 
 -- --------------------------------------------------------
 
@@ -342,7 +361,7 @@ ALTER TABLE `books`
 -- AUTO_INCREMENT for table `cart`
 --
 ALTER TABLE `cart`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
 
 --
 -- AUTO_INCREMENT for table `category`
@@ -354,13 +373,13 @@ ALTER TABLE `category`
 -- AUTO_INCREMENT for table `order`
 --
 ALTER TABLE `order`
-  MODIFY `oid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `oid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=45;
 
 --
 -- AUTO_INCREMENT for table `review`
 --
 ALTER TABLE `review`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT for table `user`
