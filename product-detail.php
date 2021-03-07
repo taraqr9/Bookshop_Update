@@ -6,36 +6,35 @@ if (!empty($_GET['bid'])) {
     $pd->productDetails($_GET['bid']);
 }
 
+//Rating--------------------------------
+if (isset($_POST['submit'])) {
+    $rating = new rating();
+    $userRate = $_POST["ratingR"];
 
-?>
+    // NOTE review with comment
+    if (!empty($_POST['uReview']) && !empty($userRate)) {
 
-<?php
-// $conn = new mysqli('localhost', 'root', '', 'bookshop');
+        //NOTE Checking, user already commented or not, if yes then rating will update otherwise it will insert
+        if ($rating->checkComment($_GET['bid'], $_SESSION['logId'])) {
 
-if (isset($_POST['save'])) {
-    $uID = $_SESSION['logId'];
-    $ratedIndex = $conn->real_escape_string($_POST['ratedIndex']);
-    $ratedIndex++;
-
-    if (!$uID) {
-        $source->Query("INSERT INTO review (bid,uid,score) VALUES (?,?,?)",[$_GET['bid'],$_SESSION['logId'],$ratedIndex]);
-        $sql = $source->Query("SELECT uid FROM review ORDER BY uid DESC LIMIT 1");
-        $uData = $source->SingleRow();
-        $uID = $uData->uid;
-    } else
-        $source->Query("UPDATE review SET score='$ratedIndex' WHERE uid like $uID and bid like ?",[$_GET['bid']]);
-
-    exit(json_encode(array('uid' => $uID)));
+            // NOTE updating rating
+            if ($rating->updateRate($userRate, $_POST['uReview'], $_GET['bid'], $_SESSION['logId'])) {
+                $rateDone =  "New Rate Updated successfully";
+            } else {
+                $rateError = "Rate not Updated";
+            }
+        } else {
+            // NOTE Adding rate
+            if ($rating->RatingWithComment($userRate, $_POST['uReview'], $_GET['bid'], $_SESSION['logId'])) {
+                $rateDone =  "New Rate addedddd successfully";
+            } else {
+                $rateError = "Rate not added";
+            }
+        }
+    } else {
+        $rateError = "You have to give also rating";
+    }
 }
-
-$sql = $source->Query("SELECT uid FROM review");
-$numR = $source->CountRows();
-
-$sql = $source->Query("SELECT SUM(score) AS total FROM review");
-$rData = $source->SingleRow();
-$total = $rData->total;
-
-$avg = $total / $numR;
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -59,6 +58,9 @@ $avg = $total / $numR;
     <link href="lib/slick/slick.css" rel="stylesheet">
     <link href="lib/slick/slick-theme.css" rel="stylesheet">
 
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.0/css/bootstrap.min.css" integrity="sha384-SI27wrMjH3ZZ89r4o+fGIJtnzkAnFs3E4qz9DIYioCQ5l9Rd/7UAa8DHcaL8jkWt" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/rateYo/2.3.2/jquery.rateyo.min.css">
+
     <!-- Template Stylesheet -->
     <link href="css/style.css" rel="stylesheet">
 </head>
@@ -73,18 +75,14 @@ $avg = $total / $numR;
         echo $_SESSION['addCart'];
         $_SESSION['addCart'] = "";
     }
+    if (!empty($rateError)) {
+        echo "<p class='text-danger'>" . $rateError . "</p>";
+        $rateError = "";
+    } elseif (!empty($rateDone)) {
+        echo "<p class='text-danger'>" . $rateDone . "</p>";
+        $rateDone = "";
+    }
     ?>
-    <!-- Breadcrumb Start -->
-    <div class="breadcrumb-wrap">
-        <div class="container-fluid">
-            <ul class="breadcrumb">
-                <li class="breadcrumb-item"><a href="#">Home</a></li>
-                <li class="breadcrumb-item"><a href="#">Products</a></li>
-                <li class="breadcrumb-item active">Product Detail</li>
-            </ul>
-        </div>
-    </div>
-    <!-- Breadcrumb End -->
 
     <!-- Product Detail Start -->
 
@@ -95,12 +93,22 @@ $avg = $total / $numR;
                     <div class="product-detail-top">
                         <div class="row align-items-center">
                             <div class="col-md-5">
+
                                 <div class="product-slider-single normal-slider">
                                     <img src="<?php echo "assets/bookimg/" . $pd->getImage();  ?>" alt="Product Image">
                                 </div>
                             </div>
                             <div class="col-md-7">
                                 <div class="product-content">
+                                <!-- Top Rating Start  -->
+                                    <div>
+                                        <div class="rateyo" id="rate" data-rateyo-rating="4" data-rateyo-num-stars="5" data-rateyo-score="3">
+                                        </div>
+                                        <span class='result'>0</span>
+                                        <br><br>
+                                    </div>
+
+                                <!-- Top Rating Start  -->
                                     <div class="title">
                                         <h2><?php echo $pd->getName();  ?></h2>
                                     </div>
@@ -156,6 +164,7 @@ $avg = $total / $numR;
                                 </div>
 
                                 <div id="reviews" class="container tab-pane fade">
+
                                     <div class="reviews-submitted">
                                         <div class="reviewer">Phasellus Gravida - <span>01 Jan 2020</span></div>
                                         <!-- <div class="ratting">
@@ -169,31 +178,35 @@ $avg = $total / $numR;
                                             Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam.
                                         </p>
                                     </div>
+
+                                    <!-- NOTE new Review -->
                                     <div class="reviews-submit">
-                                        <h4>Give your Review:</h4>
-                                        <div>
-                                        <i class="fa fa-star fa-2x" data-index="0"></i>
-                                        <i class="fa fa-star fa-2x" data-index="1"></i>
-                                        <i class="fa fa-star fa-2x" data-index="2"></i>
-                                        <i class="fa fa-star fa-2x" data-index="3"></i>
-                                        <i class="fa fa-star fa-2x" data-index="4"></i>
-                                        <br><br>
-                                        <?php echo round($avg, 2) ?>
-                                    </div>
-                                        <div class="row form">
-                                            <div class="col-sm-6">
-                                                <input type="text" placeholder="Name">
+                                        <form method="POST">
+                                            <h4>Give your Review:</h4>
+                                            <div>
+
+                                                <div class="rateyo" id="ratingR" data-rateyo-rating="4" data-rateyo-num-stars="5" data-rateyo-score="3">
+                                                </div>
+
+                                                <span class='result'>0</span>
+                                                <input type="hidden" name="ratingR">
+                                                <br><br>
+
                                             </div>
-                                            <div class="col-sm-6">
-                                                <input type="email" placeholder="Email">
+
+
+                                            <!-- NOTE new Review END  -->
+
+
+                                            <div class="row form">
+                                                <div class="col-sm-12">
+                                                    <input type="text" placeholder="Review" name="uReview">
+                                                </div>
+                                                <div class="col-sm-12">
+                                                    <input type="submit" name="submit" value="SUBMIT">
+                                                </div>
                                             </div>
-                                            <div class="col-sm-12">
-                                                <textarea placeholder="Review"></textarea>
-                                            </div>
-                                            <div class="col-sm-12">
-                                                <button>Submit</button>
-                                            </div>
-                                        </div>
+                                        </form>
                                     </div>
                                 </div>
                             </div>
@@ -357,6 +370,7 @@ $avg = $total / $numR;
         </div>
     </div>
 
+
     <!-- Product Detail End -->
 
     <!-- Footer Start -->
@@ -376,64 +390,31 @@ $avg = $total / $numR;
     <script src="js/main.js"></script>
 
     <!-- Rating -->
-    <script src="http://code.jquery.com/jquery-3.4.0.min.js" integrity="sha256-BJeo0qm959uMBGb65z40ejJYGSgR7REI4+CW1fNKwOg=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/rateYo/2.3.2/jquery.rateyo.min.js"></script>
+
+    <!-- NOTE getting value for database upload -->
     <script>
-        var ratedIndex = -1,
-            uID = 0;
-
-        $(document).ready(function() {
-            resetStarColors();
-
-            if (localStorage.getItem('ratedIndex') != null) {
-                setStars(parseInt(localStorage.getItem('ratedIndex')));
-                uID = localStorage.getItem('uID');
-            }
-
-            $('.fa-star').on('click', function() {
-                ratedIndex = parseInt($(this).data('index'));
-                localStorage.setItem('ratedIndex', ratedIndex);
-                saveToTheDB();
-            });
-
-            $('.fa-star').mouseover(function() {
-                resetStarColors();
-                var currentIndex = parseInt($(this).data('index'));
-                setStars(currentIndex);
-            });
-
-            $('.fa-star').mouseleave(function() {
-                resetStarColors();
-
-                if (ratedIndex != -1)
-                    setStars(ratedIndex);
+        $(function() {
+            $(".rateyo").rateYo().on("rateyo.change", function(e, data) {
+                var rating = data.rating;
+                $(this).parent().find('.score').text('score :' + $(this).attr('data-rateyo-score'));
+                $(this).parent().find('.result').text('ratingR :' + rating);
+                $(this).parent().find('input[name=ratingR]').val(rating); //add rating value to input field
             });
         });
+    </script>
 
-        function saveToTheDB() {
-            $.ajax({
-                url: "index.php",
-                method: "POST",
-                dataType: 'json',
-                data: {
-                    save: 1,
-                    uID: uID,
-                    ratedIndex: ratedIndex
-                },
-                success: function(r) {
-                    uID = r.id;
-                    localStorage.setItem('uID', uID);
-                }
+    <!-- NOTE showing value on rating -->
+    <script>
+        $(function() {
+            $(".rateyo").rateYo().on("rateyo.change", function(e, data) {
+                var rate = data.rating;
+                $(this).parent().find('.score').text('score :' + $(this).attr('data-rateyo-score'));
+                $(this).parent().find('.result').text('rate :' + rate);
+                $(this).parent().find('input[name=rate]').val(rate); //add rating value to input field
             });
-        }
-
-        function setStars(max) {
-            for (var i = 0; i <= max; i++)
-                $('.fa-star:eq(' + i + ')').css('color', 'gold');
-        }
-
-        function resetStarColors() {
-            $('.fa-star').css('color', 'gray');
-        }
+        });
     </script>
 </body>
 
