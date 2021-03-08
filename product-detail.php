@@ -25,7 +25,7 @@ if (isset($_POST['submit'])) {
             }
         } else {
             // NOTE Adding rate
-            if ($rating->RatingWithComment($userRate, $_POST['uReview'], $_GET['bid'], $_SESSION['logId'])) {
+            if ($rating->RatingWithComment($userRate, $_POST['uReview'], $_GET['bid'], $_SESSION['logId'], $_SESSION['login_success'])) {
                 $rateDone =  "New Rate addedddd successfully";
             } else {
                 $rateError = "Rate not added";
@@ -79,7 +79,7 @@ if (isset($_POST['submit'])) {
         echo "<p class='text-danger'>" . $rateError . "</p>";
         $rateError = "";
     } elseif (!empty($rateDone)) {
-        echo "<p class='text-danger'>" . $rateDone . "</p>";
+        echo "<p class='text-success'>" . $rateDone . "</p>";
         $rateDone = "";
     }
     ?>
@@ -100,27 +100,17 @@ if (isset($_POST['submit'])) {
                             </div>
                             <div class="col-md-7">
                                 <div class="product-content">
-                                <!-- Top Rating Start  -->
-                                    <div>
-                                        <div class="rateyo" id="rate" data-rateyo-rating="4" data-rateyo-num-stars="5" data-rateyo-score="3">
-                                        </div>
-                                        <span class='result'>0</span>
-                                        <br><br>
-                                    </div>
 
-                                <!-- Top Rating Start  -->
                                     <div class="title">
                                         <h2><?php echo $pd->getName();  ?></h2>
                                     </div>
-                                    <!-- <div>
-                                        <i class="fa fa-star fa-2x" data-index="0"></i>
-                                        <i class="fa fa-star fa-2x" data-index="1"></i>
-                                        <i class="fa fa-star fa-2x" data-index="2"></i>
-                                        <i class="fa fa-star fa-2x" data-index="3"></i>
-                                        <i class="fa fa-star fa-2x" data-index="4"></i>
+                                    <div>
+                                        <!-- NOTE Read only rating -->
+                                        <div class="rateyo" data-rateyo-rating="4.5" data-rateyo-read-only="true">
+                                        </div>
                                         <br><br>
-                                        <?php echo round($avg, 2) ?>
-                                    </div> -->
+
+                                    </div>
                                     <div class="price">
                                         <h4>Price:</h4>
                                         <p><?php echo $pd->getPrice();  ?></p>
@@ -162,52 +152,55 @@ if (isset($_POST['submit'])) {
                                         <?php echo $pd->getDescription(); ?>
                                     </p>
                                 </div>
+                                <!-- NOTE new Review -->
+                                <div class="reviews-submit">
+                                    <form method="POST">
+                                        <h4>Give your Review:</h4>
+                                        <div>
 
+                                            <div class="rateyo" id="ratingR" data-rateyo-rating="4" data-rateyo-num-stars="5" data-rateyo-score="3">
+                                            </div>
+
+                                            <span class='result'>0</span>
+                                            <input type="hidden" name="ratingR">
+                                            <br><br>
+
+                                        </div>
+
+
+                                        <!-- NOTE new Review END  -->
+
+
+                                        <div class="row form">
+                                            <div class="col-sm-12">
+                                                <input type="text" placeholder="Review" name="uReview">
+                                            </div>
+                                            <div class="col-sm-12">
+                                                <input type="submit" name="submit" value="SUBMIT">
+                                            </div>
+
+                                        </div>
+                                    </form>
+                                </div>
                                 <div id="reviews" class="container tab-pane fade">
-
                                     <div class="reviews-submitted">
-                                        <div class="reviewer">Phasellus Gravida - <span>01 Jan 2020</span></div>
-                                        <!-- <div class="ratting">
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
-                                        </div> -->
-                                        <p>
-                                            Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam.
+                                        <?php
+                                        $allCommnet = $pd->productComment($_GET['bid']);
+                                        foreach ($allCommnet as $comment) :
+                                            echo "
+                                            <div class='reviewer'>$comment->name - <span>01 Jan 2020</span> <span><div class='rateyo' id='starReadOnly' data-rateyo-rating='" . $comment->score . "' data-rateyo-read-only='true'>
+                                            </div></span><span> Rate : " . $comment->score . "</span></div>
+                                            <div class='ratting'>
+                                            </div>
+                                            <p>
+                                            $comment->comment
                                         </p>
+                                            ";
+                                        endforeach;
+                                        ?>
                                     </div>
 
-                                    <!-- NOTE new Review -->
-                                    <div class="reviews-submit">
-                                        <form method="POST">
-                                            <h4>Give your Review:</h4>
-                                            <div>
 
-                                                <div class="rateyo" id="ratingR" data-rateyo-rating="4" data-rateyo-num-stars="5" data-rateyo-score="3">
-                                                </div>
-
-                                                <span class='result'>0</span>
-                                                <input type="hidden" name="ratingR">
-                                                <br><br>
-
-                                            </div>
-
-
-                                            <!-- NOTE new Review END  -->
-
-
-                                            <div class="row form">
-                                                <div class="col-sm-12">
-                                                    <input type="text" placeholder="Review" name="uReview">
-                                                </div>
-                                                <div class="col-sm-12">
-                                                    <input type="submit" name="submit" value="SUBMIT">
-                                                </div>
-                                            </div>
-                                        </form>
-                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -396,8 +389,11 @@ if (isset($_POST['submit'])) {
     <!-- NOTE getting value for database upload -->
     <script>
         $(function() {
-            $(".rateyo").rateYo().on("rateyo.change", function(e, data) {
+            $(".rateyo").rateYo({
+                starWidth: "20px"
+            }).on("rateyo.change", function(e, data) {
                 var rating = data.rating;
+
                 $(this).parent().find('.score').text('score :' + $(this).attr('data-rateyo-score'));
                 $(this).parent().find('.result').text('ratingR :' + rating);
                 $(this).parent().find('input[name=ratingR]').val(rating); //add rating value to input field
@@ -405,7 +401,8 @@ if (isset($_POST['submit'])) {
         });
     </script>
 
-    <!-- NOTE showing value on rating -->
+
+    <!-- NOTE showing value on rating
     <script>
         $(function() {
             $(".rateyo").rateYo().on("rateyo.change", function(e, data) {
@@ -415,7 +412,7 @@ if (isset($_POST['submit'])) {
                 $(this).parent().find('input[name=rate]').val(rate); //add rating value to input field
             });
         });
-    </script>
+    </script> -->
 </body>
 
 </html>

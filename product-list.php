@@ -1,7 +1,7 @@
 <?php
 include "init.php";
 $cart = new cart();
-if(isset($_GET['bookid'])){
+if (isset($_GET['bookid'])) {
     $cart->addCart($_GET['bookid']);
 }
 ?>
@@ -27,6 +27,10 @@ if(isset($_GET['bookid'])){
     <link href="lib/slick/slick.css" rel="stylesheet">
     <link href="lib/slick/slick-theme.css" rel="stylesheet">
 
+
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.0/css/bootstrap.min.css" integrity="sha384-SI27wrMjH3ZZ89r4o+fGIJtnzkAnFs3E4qz9DIYioCQ5l9Rd/7UAa8DHcaL8jkWt" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/rateYo/2.3.2/jquery.rateyo.min.css">
     <!-- Template Stylesheet -->
     <link href="css/style.css" rel="stylesheet">
 </head>
@@ -39,81 +43,82 @@ if(isset($_GET['bookid'])){
     <!-- Nav Bar End -->
 
     <?php
-    if(!empty($_SESSION['addCart'])){
+    if (!empty($_SESSION['addCart'])) {
         echo $_SESSION['addCart'];
         $_SESSION['addCart'] = '';
     }
     ?>
 
     <!-- Product List Start -->
+    <span class='rateyo' data-rateyo-rating='4.5' data-rateyo-read-only='true'></span>
     <div class="product-view">
         <div class="container-fluid">
             <div class="row">
                 <div class="col-lg-8">
+
                     <div class="row">
-                        
-                        
-                        <?php 
-                            if(isset($_POST['comics']) || !empty($_GET['id']) && $_GET['id']==1){
-                                $query = $source->Query("SELECT * FROM books where category = 1");
-                            }elseif(isset($_POST['computer']) || !empty($_GET['id']) &&  $_GET['id']==2){
-                                $query = $source->Query("SELECT * FROM books where category = 2");
-                            }elseif(isset($_POST['entertainment']) || !empty($_GET['id']) &&  $_GET['id']==3){
-                                $query = $source->Query("SELECT * FROM books where category = 3");
-                            }elseif(isset($_POST['health']) || !empty($_GET['id']) &&  $_GET['id']==4){
-                                $query = $source->Query("SELECT * FROM books where category = 4");
-                            }elseif(isset($_POST['history']) || !empty($_GET['id']) &&  $_GET['id']==5){
-                                $query = $source->Query("SELECT * FROM books where category = 5");
-                            }elseif(isset($_POST['horror']) || !empty($_GET['id']) &&  $_GET['id']==6){
-                                $query = $source->Query("SELECT * FROM books where category = 6");
-                            }elseif(isset($_POST['literature']) || !empty($_GET['id']) &&  $_GET['id']==7){
-                                $query = $source->Query("SELECT * FROM books where category = 7");
-                            }elseif(isset($_POST['mysteries']) || !empty($_GET['id']) &&  $_GET['id']==8){
-                                $query = $source->Query("SELECT * FROM books where category = 8");
-                            }elseif(isset($_POST['religion']) || !empty($_GET['id']) &&  $_GET['id']==9){
-                                $query = $source->Query("SELECT * FROM books where category = 9");
-                            }elseif(isset($_POST['science']) || !empty($_GET['id']) &&  $_GET['id']==10){
-                                $query = $source->Query("SELECT * FROM books where category = 10");
-                            }else{
-                                $query = $source->Query("SELECT * FROM books");
-                            }
-                            
-                            $query = $source->FetchAll();
-                            $CountRow = $source->CountRows();
-                            if($CountRow>0){
-                                foreach($query as $row):
-                                    echo "
+
+
+                        <?php
+                        if (isset($_POST['comics']) || !empty($_GET['id']) && $_GET['id'] == 1) {
+                            $query = $source->Query("SELECT * FROM books where category = 1");
+                        } elseif (isset($_POST['computer']) || !empty($_GET['id']) &&  $_GET['id'] == 2) {
+                            $query = $source->Query("SELECT * FROM books where category = 2");
+                        } elseif (isset($_POST['entertainment']) || !empty($_GET['id']) &&  $_GET['id'] == 3) {
+                            $query = $source->Query("SELECT * FROM books where category = 3");
+                        } elseif (isset($_POST['health']) || !empty($_GET['id']) &&  $_GET['id'] == 4) {
+                            $query = $source->Query("SELECT * FROM books where category = 4");
+                        } elseif (isset($_POST['history']) || !empty($_GET['id']) &&  $_GET['id'] == 5) {
+                            $query = $source->Query("SELECT * FROM books where category = 5");
+                        } elseif (isset($_POST['horror']) || !empty($_GET['id']) &&  $_GET['id'] == 6) {
+                            $query = $source->Query("SELECT * FROM books where category = 6");
+                        } elseif (isset($_POST['literature']) || !empty($_GET['id']) &&  $_GET['id'] == 7) {
+                            $query = $source->Query("SELECT * FROM books where category = 7");
+                        } elseif (isset($_POST['mysteries']) || !empty($_GET['id']) &&  $_GET['id'] == 8) {
+                            $query = $source->Query("SELECT * FROM books where category = 8");
+                        } elseif (isset($_POST['religion']) || !empty($_GET['id']) &&  $_GET['id'] == 9) {
+                            $query = $source->Query("SELECT * FROM books where category = 9");
+                        } elseif (isset($_POST['science']) || !empty($_GET['id']) &&  $_GET['id'] == 10) {
+                            $query = $source->Query("SELECT * FROM books where category = 10");
+                        } else {
+                            $query = $source->Query("SELECT * FROM books");
+                        }
+
+                        $pd = new productdetail();
+                        $query = $source->FetchAll();
+                        $CountRow = $source->CountRows();
+                        if ($CountRow > 0) {
+                            foreach ($query as $row) :
+                                echo "
                                 <div class='col-md-4'>
                                 <div class='product-item'>
                                     <div class='product-title' style='height:100px;'>
-                                        <a href='product-detail.php?bid=".$row->id."'>$row->name</a>
+                                        <a href='product-detail.php?bid=" . $row->id . "'>$row->name</a>
                                         <div class='ratting'>
-                                            <i class='fa fa-star'></i>
-                                            <i class='fa fa-star'></i>
-                                            <i class='fa fa-star'></i>
-                                            <i class='fa fa-star'></i>
-                                            <i class='fa fa-star'></i>
+                                        <span class='rateyo m-auto' data-rateyo-rating='".$pd->productRating($row->id)."' data-rateyo-read-only='true'></span>
+                                        
+
                                         </div>
                                     </div>
                                     <div class='product-image' >
                                         <a href='product-detail.html'>
-                                            <img src='assets/bookimg/".$row->image."' style='height:400px;width:400px;' alt='Product Image'>
+                                            <img src='assets/bookimg/" . $row->image . "' style='height:400px;width:400px;' alt='Product Image'>
                                         </a>
                                         <div class='product-action'>
-                                            <a href='product-list.php?bookid=".$row->id."'><i class='fa fa-cart-plus'></i></a>
+                                            <a href='product-list.php?bookid=" . $row->id . "'><i class='fa fa-cart-plus'></i></a>
                                         </div>
                                     </div>
                                     <div class='product-price'>
-                                        <h3>".$row->price."</h3>
-                                        <a class='btn' href='checkout.php?buyNow=".$row->id."'><i class='fa fa-shopping-cart'></i>Buy Now</a>
+                                        <h3>" . $row->price . "</h3>
+                                        <a class='btn' href='checkout.php?buyNow=" . $row->id . "'><i class='fa fa-shopping-cart'></i>Buy Now</a>
                                     </div>
                                 </div>
                             </div>
                                 ";
-                                endforeach;
-                            }
+                            endforeach;
+                        }
                         ?>
-                        
+
                     </div>
                 </div>
                 <!-- Side Bar Start -->
@@ -132,6 +137,10 @@ if(isset($_GET['bookid'])){
     <!-- Back to Top -->
     <a href="#" class="back-to-top"><i class="fa fa-chevron-up"></i></a>
 
+
+
+    <script src="jquery.js"></script>
+    <script src="jquery.rateyo.js"></script>
     <!-- JavaScript Libraries -->
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
@@ -140,6 +149,19 @@ if(isset($_GET['bookid'])){
 
     <!-- Template Javascript -->
     <script src="js/main.js"></script>
+
+    <!-- Rating -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/rateYo/2.3.2/jquery.rateyo.min.js"></script>
+
+    <script>
+        $(function() {
+            $(".rateyo").rateYo({
+                starWidth: "20px"
+            })
+        });
+    </script>
+
 </body>
 
 </html>

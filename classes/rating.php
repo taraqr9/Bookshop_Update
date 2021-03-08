@@ -1,13 +1,8 @@
 <?php 
 class rating{
-    function RatingOnly($score,$uid,$bid){
+    function RatingWithComment($score,$comment,$bid,$uid,$uName){
         $source = new source();
-        return $source->Query("INSERT INTO review(bid,uid,score) VALUES (?,?,?)",[$bid,$uid,$score]);
-
-    }
-    function RatingWithComment($score,$comment,$bid,$uid){
-        $source = new source();
-        return $source->Query("INSERT INTO review(bid,uid,score,comment) VALUES (?,?,?,?)",[$bid,$uid,$score,$comment]);
+        return $source->Query("INSERT INTO review(bid,uid,name,score,comment) VALUES (?,?,?,?,?)",[$bid,$uid,$uName,$score,$comment]);
 
     }
     function updateRate($score,$comment,$bid,$uid){

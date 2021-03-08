@@ -16,7 +16,7 @@ class login{
         $id = $details->id;
         return $id;
     }
-    public function name($email){
+    public function userName($email){
         $source = new source();
         $source->Query("SELECT * from user where `email` = ?",[$email]);
         $details = $source->SingleRow();

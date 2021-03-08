@@ -17,8 +17,9 @@ if (isset($_POST['login'])) {
     if (!empty($_POST['logEmail']) || !empty($_POST['logPassword'])) {
         if ($login = new login($_POST['logEmail'], $_POST['logPassword'])) {
             $id = $login->id($_POST['logEmail']);
-            $_SESSION['login_success'] = $login->name($_POST['logEmail']);
+            $_SESSION['login_success'] = $login->userName($_POST['logEmail']);
             $_SESSION['logId'] = $login->id($_POST['logEmail']);
+            $_SESSION['name'] = $login->id($_POST['logEmail']);
             header("location:index.php");
         }
     } else {

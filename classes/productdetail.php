@@ -25,6 +25,29 @@ class productdetail
             $this->image = $query->image;
         }
     }
+    public function productComment($bid): array{
+        $source = new source();
+        $source->Query("SELECT * FROM review where bid = ?",[$bid]);
+        $review = $source->FetchAll();
+        return $review;
+    }
+
+    public function productRating($bid) : float{
+        $source = new source();
+        $source->Query("SELECT SUM(score) as rate FROM review where bid = ?",[$bid]);
+        $rate = $source->SingleRow();
+
+        $source->Query("SELECT * FROM review where bid = ?",[$bid]);
+        $source->FetchAll();
+        $row = $source->CountRows();
+        if($row>0){
+            $avg = $rate->rate / $row;
+        }else{
+            $avg = 3;
+        }
+        
+        return $avg;
+    }
 
 
 
