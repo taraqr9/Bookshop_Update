@@ -32,7 +32,7 @@ class productdetail
         return $review;
     }
 
-    public function productRating($bid) : float{
+    public function productRating($bid) : float {
         $source = new source();
         $source->Query("SELECT SUM(score) as rate FROM review where bid = ?",[$bid]);
         $rate = $source->SingleRow();
@@ -41,12 +41,13 @@ class productdetail
         $source->FetchAll();
         $row = $source->CountRows();
         if($row>0){
-            $avg = $rate->rate / $row;
+            return floatval($rate->rate / $row);
+            
         }else{
-            $avg = 3;
+            return 0;
         }
         
-        return $avg;
+        
     }
 
 

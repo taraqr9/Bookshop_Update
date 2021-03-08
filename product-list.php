@@ -4,6 +4,7 @@ $cart = new cart();
 if (isset($_GET['bookid'])) {
     $cart->addCart($_GET['bookid']);
 }
+$pd = new productdetail();
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -50,7 +51,6 @@ if (isset($_GET['bookid'])) {
     ?>
 
     <!-- Product List Start -->
-    <span class='rateyo' data-rateyo-rating='4.5' data-rateyo-read-only='true'></span>
     <div class="product-view">
         <div class="container-fluid">
             <div class="row">
@@ -60,63 +60,107 @@ if (isset($_GET['bookid'])) {
 
 
                         <?php
-                        if (isset($_POST['comics']) || !empty($_GET['id']) && $_GET['id'] == 1) {
-                            $query = $source->Query("SELECT * FROM books where category = 1");
-                        } elseif (isset($_POST['computer']) || !empty($_GET['id']) &&  $_GET['id'] == 2) {
-                            $query = $source->Query("SELECT * FROM books where category = 2");
-                        } elseif (isset($_POST['entertainment']) || !empty($_GET['id']) &&  $_GET['id'] == 3) {
-                            $query = $source->Query("SELECT * FROM books where category = 3");
-                        } elseif (isset($_POST['health']) || !empty($_GET['id']) &&  $_GET['id'] == 4) {
-                            $query = $source->Query("SELECT * FROM books where category = 4");
-                        } elseif (isset($_POST['history']) || !empty($_GET['id']) &&  $_GET['id'] == 5) {
-                            $query = $source->Query("SELECT * FROM books where category = 5");
-                        } elseif (isset($_POST['horror']) || !empty($_GET['id']) &&  $_GET['id'] == 6) {
-                            $query = $source->Query("SELECT * FROM books where category = 6");
-                        } elseif (isset($_POST['literature']) || !empty($_GET['id']) &&  $_GET['id'] == 7) {
-                            $query = $source->Query("SELECT * FROM books where category = 7");
-                        } elseif (isset($_POST['mysteries']) || !empty($_GET['id']) &&  $_GET['id'] == 8) {
-                            $query = $source->Query("SELECT * FROM books where category = 8");
-                        } elseif (isset($_POST['religion']) || !empty($_GET['id']) &&  $_GET['id'] == 9) {
-                            $query = $source->Query("SELECT * FROM books where category = 9");
-                        } elseif (isset($_POST['science']) || !empty($_GET['id']) &&  $_GET['id'] == 10) {
-                            $query = $source->Query("SELECT * FROM books where category = 10");
-                        } else {
-                            $query = $source->Query("SELECT * FROM books");
-                        }
-
-                        $pd = new productdetail();
-                        $query = $source->FetchAll();
-                        $CountRow = $source->CountRows();
-                        if ($CountRow > 0) {
-                            foreach ($query as $row) :
-                                echo "
-                                <div class='col-md-4'>
-                                <div class='product-item'>
-                                    <div class='product-title' style='height:100px;'>
-                                        <a href='product-detail.php?bid=" . $row->id . "'>$row->name</a>
-                                        <div class='ratting'>
-                                        <span class='rateyo m-auto' data-rateyo-rating='".$pd->productRating($row->id)."' data-rateyo-read-only='true'></span>
-                                        
-
+                        if (!empty($_GET['bestSell'])) {
+                            $noRepeat = [];
+                            $query = $source->Query("SELECT * FROM review ORDER BY score DESC");
+                            $query = $source->FetchAll();
+                            foreach ($query as $q) :
+                                
+                                $pd->productDetails($q->bid);
+                                if(!in_array($q->bid,$noRepeat)){
+                                    echo "
+                                    <div class='col-md-4'>
+                                    <div class='product-item'>
+                                        <div class='product-title' style='height:100px;'>
+                                            <a href='product-detail.php?bid=" . $pd->getId() . "'>" . $pd->getName() . "</a>
+                                            <div class='ratting'>
+                                            <span class='rateyo m-auto' data-rateyo-rating='" . $pd->productRating($pd->getId()) . "' data-rateyo-read-only='true'></span>
+                                            
+    
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div class='product-image' >
-                                        <a href='product-detail.html'>
-                                            <img src='assets/bookimg/" . $row->image . "' style='height:400px;width:400px;' alt='Product Image'>
-                                        </a>
-                                        <div class='product-action'>
-                                            <a href='product-list.php?bookid=" . $row->id . "'><i class='fa fa-cart-plus'></i></a>
+                                        <div class='product-image' >
+                                            <a href='product-detail.html'>
+                                                <img src='assets/bookimg/" . $pd->getImage() . "' style='height:400px;width:400px;' alt='Product Image'>
+                                            </a>
+                                            <div class='product-action'>
+                                                <a href='product-list.php?bookid=" . $pd->getId() . "'><i class='fa fa-cart-plus'></i></a>
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div class='product-price'>
-                                        <h3>" . $row->price . "</h3>
-                                        <a class='btn' href='checkout.php?buyNow=" . $row->id . "'><i class='fa fa-shopping-cart'></i>Buy Now</a>
+                                        <div class='product-price'>
+                                            <h3>" . $pd->getPrice() . "</h3>
+                                            <a class='btn' href='checkout.php?buyNow=" . $pd->getId() . "'><i class='fa fa-shopping-cart'></i>Buy Now</a>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                                ";
+                                    ";
+                                }
+                                
+                            
+                            $noRepeat[] = $pd->getId();
                             endforeach;
+
                         }
+                        else{
+                            if (isset($_POST['comics']) || !empty($_GET['id']) && $_GET['id'] == 1) {
+                                $query = $source->Query("SELECT * FROM books where category = 1");
+                            } elseif (isset($_POST['computer']) || !empty($_GET['id']) &&  $_GET['id'] == 2) {
+                                $query = $source->Query("SELECT * FROM books where category = 2");
+                            } elseif (isset($_POST['entertainment']) || !empty($_GET['id']) &&  $_GET['id'] == 3) {
+                                $query = $source->Query("SELECT * FROM books where category = 3");
+                            } elseif (isset($_POST['health']) || !empty($_GET['id']) &&  $_GET['id'] == 4) {
+                                $query = $source->Query("SELECT * FROM books where category = 4");
+                            } elseif (isset($_POST['history']) || !empty($_GET['id']) &&  $_GET['id'] == 5) {
+                                $query = $source->Query("SELECT * FROM books where category = 5");
+                            } elseif (isset($_POST['horror']) || !empty($_GET['id']) &&  $_GET['id'] == 6) {
+                                $query = $source->Query("SELECT * FROM books where category = 6");
+                            } elseif (isset($_POST['literature']) || !empty($_GET['id']) &&  $_GET['id'] == 7) {
+                                $query = $source->Query("SELECT * FROM books where category = 7");
+                            } elseif (isset($_POST['mysteries']) || !empty($_GET['id']) &&  $_GET['id'] == 8) {
+                                $query = $source->Query("SELECT * FROM books where category = 8");
+                            } elseif (isset($_POST['religion']) || !empty($_GET['id']) &&  $_GET['id'] == 9) {
+                                $query = $source->Query("SELECT * FROM books where category = 9");
+                            } elseif (isset($_POST['science']) || !empty($_GET['id']) &&  $_GET['id'] == 10) {
+                                $query = $source->Query("SELECT * FROM books where category = 10");
+                            } else {
+                                $query = $source->Query("SELECT * FROM books");
+                            }
+
+
+                            $query = $source->FetchAll();
+                            $CountRow = $source->CountRows();
+                            if ($CountRow > 0) {
+                                foreach ($query as $row) :
+                                    echo "
+                                    <div class='col-md-4'>
+                                    <div class='product-item'>
+                                        <div class='product-title' style='height:100px;'>
+                                            <a href='product-detail.php?bid=" . $row->id . "'>$row->name</a>
+                                            <div class='ratting'>
+                                            <span class='rateyo m-auto' data-rateyo-rating='" . $pd->productRating($row->id) . "' data-rateyo-read-only='true'></span>
+                                            
+    
+                                            </div>
+                                        </div>
+                                        <div class='product-image' >
+                                            <a href='product-detail.html'>
+                                                <img src='assets/bookimg/" . $row->image . "' style='height:400px;width:400px;' alt='Product Image'>
+                                            </a>
+                                            <div class='product-action'>
+                                                <a href='product-list.php?bookid=" . $row->id . "'><i class='fa fa-cart-plus'></i></a>
+                                            </div>
+                                        </div>
+                                        <div class='product-price'>
+                                            <h3>" . $row->price . "</h3>
+                                            <a class='btn' href='checkout.php?buyNow=" . $row->id . "'><i class='fa fa-shopping-cart'></i>Buy Now</a>
+                                        </div>
+                                    </div>
+                                </div>
+                                    ";
+                                endforeach;
+                            }
+                        }
+
                         ?>
 
                     </div>

@@ -106,7 +106,7 @@ if (isset($_POST['submit'])) {
                                     </div>
                                     <div>
                                         <!-- NOTE Read only rating -->
-                                        <div class="rateyo" data-rateyo-rating="4.5" data-rateyo-read-only="true">
+                                        <div class="rateyo" data-rateyo-rating="<?php echo number_format($pd->productRating($_GET['bid']), 1, '.', ''); ?>" data-rateyo-read-only="true">
                                         </div>
                                         <br><br>
 
@@ -188,7 +188,8 @@ if (isset($_POST['submit'])) {
                                         $allCommnet = $pd->productComment($_GET['bid']);
                                         foreach ($allCommnet as $comment) :
                                             echo "
-                                            <div class='reviewer'>$comment->name - <span>01 Jan 2020</span> <span><div class='rateyo' id='starReadOnly' data-rateyo-rating='" . $comment->score . "' data-rateyo-read-only='true'>
+                                            <div class='reviewer'>$comment->name - <span>01 Jan 2020</span> <span>
+                                            <div class='rateyo' id='starReadOnly' data-rateyo-rating='" . $comment->score . "' data-rateyo-read-only='true'>
                                             </div></span><span> Rate : " . $comment->score . "</span></div>
                                             <div class='ratting'>
                                             </div>
