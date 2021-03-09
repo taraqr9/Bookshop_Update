@@ -221,7 +221,7 @@ if (isset($_POST['submit'])) {
 
                         <?php
                             // $pd->relatedProduct($pd->getCategory());
-                            FIXME
+                            // FIXME
                         ?>
                                 <div class='col-lg-3'>
                                 <div class='product-item'>
