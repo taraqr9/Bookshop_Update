@@ -60,7 +60,7 @@ $pd = new productdetail();
 
 
                         <?php
-                        if (!empty($_GET['bestSell'])) {
+                        if (!empty($_GET['mostReview'])) {
                             $noRepeat = [];
                             $query = $source->Query("SELECT * FROM review ORDER BY score DESC");
                             $query = $source->FetchAll();
@@ -94,10 +94,11 @@ $pd = new productdetail();
                                     </div>
                                 </div>
                                     ";
+                                    $noRepeat[] = $pd->getId();
                                 }
                                 
                             
-                            $noRepeat[] = $pd->getId();
+                            
                             endforeach;
 
                         }

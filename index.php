@@ -47,13 +47,13 @@ include "init.php";
                                     <a class="nav-link" href="#"><i class="fa fa-home"></i>Home</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" href="product-list.php?bestSell=1"><i class="fa fa-shopping-bag"></i>Best Selling</a>
+                                    <a class="nav-link" href="#"><i class="fa fa-shopping-bag"></i>Best Selling</a>
                                 </li>
                                 <li class="nav-item">
                                     <a class="nav-link" href="#"><i class="fas fa-plane-arrival"></i>New Arrivals</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" href="#"><i class="fas fa-book-reader"></i>Most Reviewd</a>
+                                    <a class="nav-link" href="product-list.php?mostReview=1"><i class="fas fa-book-reader"></i>Most Reviewd</a>
                                 </li>
                             </ul>
                         </nav>

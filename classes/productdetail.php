@@ -25,29 +25,55 @@ class productdetail
             $this->image = $query->image;
         }
     }
-    public function productComment($bid): array{
+    public function productComment($bid): array
+    {
         $source = new source();
-        $source->Query("SELECT * FROM review where bid = ?",[$bid]);
+        $source->Query("SELECT * FROM review where bid = ?", [$bid]);
         $review = $source->FetchAll();
         return $review;
     }
 
-    public function productRating($bid) : float {
+    public function productRating($bid): float
+    {
         $source = new source();
-        $source->Query("SELECT SUM(score) as rate FROM review where bid = ?",[$bid]);
+        $source->Query("SELECT SUM(score) as rate FROM review where bid = ?", [$bid]);
         $rate = $source->SingleRow();
 
-        $source->Query("SELECT * FROM review where bid = ?",[$bid]);
+        $source->Query("SELECT * FROM review where bid = ?", [$bid]);
         $source->FetchAll();
         $row = $source->CountRows();
-        if($row>0){
+        if ($row > 0) {
             return floatval($rate->rate / $row);
-            
-        }else{
+        } else {
             return 0;
         }
-        
-        
+    }
+
+    public function relatedProduct($category)
+    {
+        $source = new source();
+
+        $query = $source->Query("SELECT max(id) FROM books where category = $category");
+        $query = $source->SingleRow();
+        $maxId = $query->id;
+
+        $query = $source->Query("SELECT min(id) FROM books where category = $category");
+        $query = $source->SingleRow();
+        $minId = $query->id;
+
+
+        $randomValue = rand($minId, $maxId);
+
+        $query = $source->Query("SELECT * FROM books where id = $randomValue");
+        $query = $source->SingleRow();
+        $this->id = $query->id;
+        $this->name = $query->name;
+        $this->author = $query->author;
+        $this->publisher = $query->publisher;
+        $this->price = $query->price;
+        $this->description = $query->description;
+        $this->category = $query->category;
+        $this->image = $query->image;
     }
 
 
@@ -111,11 +137,9 @@ class productdetail
 
     /**
      * Get the value of id
-     */ 
+     */
     public function getId()
     {
         return $this->id;
     }
-
-
 }

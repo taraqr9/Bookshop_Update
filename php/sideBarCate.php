@@ -57,7 +57,7 @@
                                 </div>
                                 <div class="product-image">
                                     <a href="product-detail.html">
-                                        <img src="assets/bookimg/5.jpg" alt="Product Image">
+                                        <img src="assets/bookimg/5.jpg" alt="Product Image" style="height: 600px;"> 
                                     </a>
                                     <div class="product-action">
                                         <a href="#"><i class="fa fa-cart-plus"></i></a>
@@ -80,7 +80,7 @@
                                     </div>
                                 </div>
                                 <div class="product-image">
-                                    <a href="product-detail.html">
+                                    <a href="product-detail.html" style="height: 600px;">
                                         <img src="assets/bookimg/55.jpg" alt="Product Image">
                                     </a>
                                     <div class="product-action">
@@ -105,7 +105,7 @@
                                 </div>
                                 <div class="product-image">
                                     <a href="product-detail.html">
-                                        <img src="assets/bookimg/90.jpg" alt="Product Image">
+                                        <img src="assets/bookimg/90.jpg" alt="Product Image" style="height: 600px;">
                                     </a>
                                     <div class="product-action">
                                         <a href="#"><i class="fa fa-cart-plus"></i></a>

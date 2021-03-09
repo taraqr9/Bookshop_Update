@@ -12,28 +12,33 @@ if (isset($_POST['submit'])) {
     $userRate = $_POST["ratingR"];
 
     // NOTE review with comment
-    if (!empty($_POST['uReview']) && !empty($userRate)) {
+    if(!empty($_SESSION['logId'])){
+        if (!empty($_POST['uReview']) && !empty($userRate)) {
 
-        //NOTE Checking, user already commented or not, if yes then rating will update otherwise it will insert
-        if ($rating->checkComment($_GET['bid'], $_SESSION['logId'])) {
-
-            // NOTE updating rating
-            if ($rating->updateRate($userRate, $_POST['uReview'], $_GET['bid'], $_SESSION['logId'])) {
-                $rateDone =  "New Rate Updated successfully";
+            //NOTE Checking, user already commented or not, if yes then rating will update otherwise it will insert
+            if ($rating->checkComment($_GET['bid'], $_SESSION['logId'])) {
+    
+                // NOTE updating rating
+                if ($rating->updateRate($userRate, $_POST['uReview'], $_GET['bid'], $_SESSION['logId'])) {
+                    $rateDone =  "New Rate Updated successfully";
+                } else {
+                    $rateError = "Rate not Updated";
+                }
             } else {
-                $rateError = "Rate not Updated";
+                // NOTE Adding rate
+                if ($rating->RatingWithComment($userRate, $_POST['uReview'], $_GET['bid'], $_SESSION['logId'], $_SESSION['login_success'])) {
+                    $rateDone =  "New Rate addedddd successfully";
+                } else {
+                    $rateError = "Rate not added";
+                }
             }
         } else {
-            // NOTE Adding rate
-            if ($rating->RatingWithComment($userRate, $_POST['uReview'], $_GET['bid'], $_SESSION['logId'], $_SESSION['login_success'])) {
-                $rateDone =  "New Rate addedddd successfully";
-            } else {
-                $rateError = "Rate not added";
-            }
+            $rateError = "You have fill both , Rating and comment";
         }
-    } else {
-        $rateError = "You have to give also rating";
+    }else{
+        $rateError = "Please Login first";
     }
+    
 }
 ?>
 <!DOCTYPE html>
@@ -213,34 +218,44 @@ if (isset($_POST['submit'])) {
                         </div>
 
                         <div class="row align-items-center product-slider product-slider-3">
-                            <div class="col-lg-3">
-                                <div class="product-item">
-                                    <div class="product-title">
-                                        <a href="#">Product Name</a>
-                                        <div class="ratting">
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
+
+                        <?php
+                            // $pd->relatedProduct($pd->getCategory());
+                            FIXME
+                        ?>
+                                <div class='col-lg-3'>
+                                <div class='product-item'>
+                                    <div class='product-title'>
+                                        <a href='#'>Name</a>
+                                        <div class='ratting'>
+                                            <i class='fa fa-star'></i>
+                                            <i class='fa fa-star'></i>
+                                            <i class='fa fa-star'></i>
+                                            <i class='fa fa-star'></i>
+                                            <i class='fa fa-star'></i>
                                         </div>
                                     </div>
-                                    <div class="product-image">
-                                        <a href="product-detail.html">
-                                            <img src="img/product-10.jpg" alt="Product Image">
+                                    <div class='product-image'>
+                                        <a href='product-detail.html'>
+                                            <img src='img/product-10.jpg' alt='Product Image'>
                                         </a>
-                                        <div class="product-action">
-                                            <a href="#"><i class="fa fa-cart-plus"></i></a>
-                                            <a href="#"><i class="fa fa-heart"></i></a>
-                                            <a href="#"><i class="fa fa-search"></i></a>
+                                        <div class='product-action'>
+                                            <a href='#'><i class='fa fa-cart-plus'></i></a>
+                                            <a href='#'><i class='fa fa-heart'></i></a>
+                                            <a href='#'><i class='fa fa-search'></i></a>
                                         </div>
                                     </div>
-                                    <div class="product-price">
+                                    <div class='product-price'>
                                         <h3><span>$</span>99</h3>
-                                        <a class="btn" href=""><i class="fa fa-shopping-cart"></i>Buy Now</a>
+                                        <a class='btn' href=''><i class='fa fa-shopping-cart'></i>Buy Now</a>
                                     </div>
                                 </div>
                             </div>
+                                
+                            
+
+
+
                             <div class="col-lg-3">
                                 <div class="product-item">
                                     <div class="product-title">
