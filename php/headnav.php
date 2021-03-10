@@ -30,7 +30,6 @@ $countCart = new cart();
                         </div>
                     </div>
                     <a href="product-list.php" class="nav-item nav-link">Books</a>
-                    <a href="product-detail.php" class="nav-item nav-link">Product Detail</a>
 
                 </div>
                 <?php

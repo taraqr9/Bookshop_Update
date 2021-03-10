@@ -49,31 +49,25 @@ class productdetail
         }
     }
 
-    public function relatedProduct($category)
+    public function relatedProduct($category) : int
     {
         $source = new source();
 
-        $query = $source->Query("SELECT max(id) FROM books where category = $category");
+        $query = $source->Query("SELECT max(id) as id FROM books where category = ?",[$category]);
         $query = $source->SingleRow();
         $maxId = $query->id;
 
-        $query = $source->Query("SELECT min(id) FROM books where category = $category");
+        $query = $source->Query("SELECT min(id) as id FROM books where category = ?",[$category]);
         $query = $source->SingleRow();
         $minId = $query->id;
 
 
         $randomValue = rand($minId, $maxId);
-
-        $query = $source->Query("SELECT * FROM books where id = $randomValue");
-        $query = $source->SingleRow();
-        $this->id = $query->id;
-        $this->name = $query->name;
-        $this->author = $query->author;
-        $this->publisher = $query->publisher;
-        $this->price = $query->price;
-        $this->description = $query->description;
-        $this->category = $query->category;
-        $this->image = $query->image;
+        return $randomValue;
+        // if($query = $source->Query("SELECT * FROM books where id = ?",[$randomValue])){
+        //     return $query = $source->SingleRow();
+            
+        // }
     }
 
 
@@ -141,5 +135,17 @@ class productdetail
     public function getId()
     {
         return $this->id;
+    }
+
+    /**
+     * Set the value of id
+     *
+     * @return  self
+     */ 
+    public function setId($id)
+    {
+        $this->id = $id;
+
+        return $this;
     }
 }

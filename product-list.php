@@ -75,8 +75,6 @@ $pd = new productdetail();
                                             <a href='product-detail.php?bid=" . $pd->getId() . "'>" . $pd->getName() . "</a>
                                             <div class='ratting'>
                                             <span class='rateyo m-auto' data-rateyo-rating='" . $pd->productRating($pd->getId()) . "' data-rateyo-read-only='true'></span>
-                                            
-    
                                             </div>
                                         </div>
                                         <div class='product-image' >

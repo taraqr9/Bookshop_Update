@@ -6,18 +6,19 @@ if (!empty($_GET['bid'])) {
     $pd->productDetails($_GET['bid']);
 }
 
+
 //Rating--------------------------------
 if (isset($_POST['submit'])) {
     $rating = new rating();
     $userRate = $_POST["ratingR"];
 
     // NOTE review with comment
-    if(!empty($_SESSION['logId'])){
+    if (!empty($_SESSION['logId'])) {
         if (!empty($_POST['uReview']) && !empty($userRate)) {
 
             //NOTE Checking, user already commented or not, if yes then rating will update otherwise it will insert
             if ($rating->checkComment($_GET['bid'], $_SESSION['logId'])) {
-    
+
                 // NOTE updating rating
                 if ($rating->updateRate($userRate, $_POST['uReview'], $_GET['bid'], $_SESSION['logId'])) {
                     $rateDone =  "New Rate Updated successfully";
@@ -35,10 +36,9 @@ if (isset($_POST['submit'])) {
         } else {
             $rateError = "You have fill both , Rating and comment";
         }
-    }else{
+    } else {
         $rateError = "Please Login first";
     }
-    
 }
 ?>
 <!DOCTYPE html>
@@ -71,14 +71,15 @@ if (isset($_POST['submit'])) {
 </head>
 
 <body>
-
     <!-- Nav Bar Start -->
     <?php include 'php/headnav.php'; ?>
     <!-- Nav Bar End -->
     <?php
+    echo $pd->getCategory();
+    
     if (!empty($_SESSION['addCart'])) {
         echo $_SESSION['addCart'];
-        $_SESSION['addCart'] = "";
+        $_SESSION['addCart'] = '';
     }
     if (!empty($rateError)) {
         echo "<p class='text-danger'>" . $rateError . "</p>";
@@ -218,45 +219,51 @@ if (isset($_POST['submit'])) {
                         </div>
 
                         <div class="row align-items-center product-slider product-slider-3">
-
-                        <?php
-                            // $pd->relatedProduct($pd->getCategory());
-                            // FIXME
-                        ?>
-                                <div class='col-lg-3'>
-                                <div class='product-item'>
-                                    <div class='product-title'>
-                                        <a href='#'>Name</a>
-                                        <div class='ratting'>
-                                            <i class='fa fa-star'></i>
-                                            <i class='fa fa-star'></i>
-                                            <i class='fa fa-star'></i>
-                                            <i class='fa fa-star'></i>
-                                            <i class='fa fa-star'></i>
-                                        </div>
-                                    </div>
-                                    <div class='product-image'>
-                                        <a href='product-detail.html'>
-                                            <img src='img/product-10.jpg' alt='Product Image'>
-                                        </a>
-                                        <div class='product-action'>
-                                            <a href='#'><i class='fa fa-cart-plus'></i></a>
-                                            <a href='#'><i class='fa fa-heart'></i></a>
-                                            <a href='#'><i class='fa fa-search'></i></a>
-                                        </div>
-                                    </div>
-                                    <div class='product-price'>
-                                        <h3><span>$</span>99</h3>
-                                        <a class='btn' href=''><i class='fa fa-shopping-cart'></i>Buy Now</a>
-                                    </div>
-                                </div>
-                            </div>
+                            <!-- NOTE Suggested Books -->
+                            <?php
+                            $checkRand = [];
+                            for ($i = 0; $i < 5; $i++) {
+                                $randomNum = $pd->relatedProduct($pd->getCategory());
                                 
-                            
 
+                                if (!in_array($randomNum, $checkRand)) {
+                                    $query1 = $source->Query("SELECT * FROM books where id = ?", [$randomNum]);
+                                    $query = $source->SingleRow();
+                                    $row = $source->CountRows();
+                                    if ($row > 0) {
+                                        echo "
+                                        <div class='col-lg-3'>
+                                        <div class='product-item'>
+                                            <div class='product-title' style='height:100px;'>
+                                                <a href='product-detail.php?bid=" . $query->id . "'>" . $query->name . "</a>
+                                                <div class='ratting'>
+                                            <span class='rateyo m-auto' data-rateyo-rating='" . $pd->productRating($randomNum) . "' data-rateyo-read-only='true'></span>
+                                            </div>
+                                            </div>
+                                            <div class='product-image'>
+                                                <a href='product-detail.html'>
+                                                    <img src='assets/bookimg/" . $query->image . "' alt='Product Image' style='height:400px;width:400px;'>
+                                                </a>
+                                                
+                                            </div>
+                                            <div class='product-price'>
+                                                <span class='h3 text-white bg-dark'>" . $query->price . "</span>
+                                                <a class='btn' href=''><i class='fa fa-shopping-cart'></i>Buy Now</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                        ";
+                                    }
+                                    $checkRand[] = $randomNum;
+                                } else {
+                                    $i--;
+                                }
 
+                            }
 
-                            <div class="col-lg-3">
+                            ?>
+
+                            <!-- <div class="col-lg-3">
                                 <div class="product-item">
                                     <div class="product-title">
                                         <a href="#">Product Name</a>
@@ -367,7 +374,7 @@ if (isset($_POST['submit'])) {
                                         <a class="btn" href=""><i class="fa fa-shopping-cart"></i>Buy Now</a>
                                     </div>
                                 </div>
-                            </div>
+                            </div> -->
                         </div>
                     </div>
                 </div>
