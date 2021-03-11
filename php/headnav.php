@@ -79,9 +79,12 @@
             </div>
             <div class="col-md-6">
                 <div class="search">
-                    <input type="text" placeholder="Search">
-                    <button><i class="fa fa-search"></i></button>
+                    <form method='GET' action="product-list.php">
+                        <input type="text" placeholder="Search" name="bookName" class="col-5">
+                        <input type="submit" name="search" value="Search" class="btn btn-outline-none">
+                    </form>
                 </div>
+
             </div>
             <div class="col-md-3">
                 <div class="user">
