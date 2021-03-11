@@ -3,10 +3,18 @@ include "init.php";
 
 if (isset($_POST['registration'])) {
     if (!empty($_POST['regName']) || !empty($_POST['regEmail']) || !empty($_POST['phone']) || !empty($_POST['address']) || !empty($_POST['regPassword'])) {
-        if (new signup($_POST['regName'], $_POST['regEmail'], $_POST['regPassword'], $_POST['phone'], $_POST['address'])) {
-            $Done = "Registration Successfull";
+        $source->Query("SELECT * FROM user WHERE email = ?", [$_POST['regEmail']]);
+        $email = $source->SingleRow();
+        $countRow = $source->CountRows();
+
+        if ($countRow > 0) {
+            $Error = "Sorry, This user already exists";
         } else {
-            $Error = "Something went wrong";
+            if (new signup($_POST['regName'], $_POST['regEmail'], $_POST['regPassword'], $_POST['phone'], $_POST['address'])) {
+                $Done = "Registration Successfull";
+            } else {
+                $Error = "Something went wrong";
+            }
         }
     } else {
         $Error = "Please fillup your all details";
@@ -60,12 +68,12 @@ if (isset($_POST['login'])) {
     <!-- NOTE  if User not login before buys something then the msg will showUP -->
     <?php
 
-    if(!empty($_GET['Error'])){
+    if (!empty($_GET['Error'])) {
         echo "<span class='h2 text-danger'> Please Registration or Login first </span>";
         $_GET['Error'] = "";
     }
     ?>
-    
+
 
     <!-- Login Start -->
     <div class="login">

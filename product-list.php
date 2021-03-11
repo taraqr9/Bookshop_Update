@@ -151,7 +151,7 @@ $pd = new productdetail();
                                             </div>
                                         </div>
                                         <div class='product-price'>
-                                            <h3>" . $row->price . "</h3>
+                                            <h3 class='text-white'>" . $row->price . "</h3>
                                             <a class='btn' href='checkout.php?buyNow=" . $row->id . "'><i class='fa fa-shopping-cart'></i>Buy Now</a>
                                         </div>
                                     </div>

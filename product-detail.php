@@ -75,7 +75,7 @@ if (isset($_POST['submit'])) {
     <?php include 'php/headnav.php'; ?>
     <!-- Nav Bar End -->
     <?php
-    echo $pd->getCategory();
+    
     
     if (!empty($_SESSION['addCart'])) {
         echo $_SESSION['addCart'];
@@ -194,7 +194,7 @@ if (isset($_POST['submit'])) {
                                         $allCommnet = $pd->productComment($_GET['bid']);
                                         foreach ($allCommnet as $comment) :
                                             echo "
-                                            <div class='reviewer'>$comment->name - <span>01 Jan 2020</span> <span>
+                                            <div class='reviewer'>$comment->name - <span>$comment->date</span> <span>
                                             <div class='rateyo' id='starReadOnly' data-rateyo-rating='" . $comment->score . "' data-rateyo-read-only='true'>
                                             </div></span><span> Rate : " . $comment->score . "</span></div>
                                             <div class='ratting'>

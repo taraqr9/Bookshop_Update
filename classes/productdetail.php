@@ -28,7 +28,7 @@ class productdetail
     public function productComment($bid): array
     {
         $source = new source();
-        $source->Query("SELECT * FROM review where bid = ?", [$bid]);
+        $source->Query("SELECT * FROM review where bid = ? ORDER BY date DESC", [$bid]);
         $review = $source->FetchAll();
         return $review;
     }
