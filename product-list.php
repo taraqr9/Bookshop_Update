@@ -99,6 +99,8 @@ $pd = new productdetail();
                             
                             endforeach;
 
+                        }elseif(!empty($_GET['bestSell'])){
+                            $pd->bestSell();
                         }
                         else{
                             if (isset($_POST['comics']) || !empty($_GET['id']) && $_GET['id'] == 1) {
@@ -136,9 +138,8 @@ $pd = new productdetail();
                                         <div class='product-title' style='height:100px;'>
                                             <a href='product-detail.php?bid=" . $row->id . "'>$row->name</a>
                                             <div class='ratting'>
-                                            <span class='rateyo m-auto' data-rateyo-rating='" . $pd->productRating($row->id) . "' data-rateyo-read-only='true'></span>
-                                            
-    
+                                            <span class='rateyo m-auto' data-rateyo-rating='" . $pd->productRating($row->id) . "' data-rateyo-read-only='true'>
+                                            </span>
                                             </div>
                                         </div>
                                         <div class='product-image' >

@@ -49,15 +49,15 @@ class productdetail
         }
     }
 
-    public function relatedProduct($category) : int
+    public function relatedProduct($category): int
     {
         $source = new source();
 
-        $query = $source->Query("SELECT max(id) as id FROM books where category = ?",[$category]);
+        $query = $source->Query("SELECT max(id) as id FROM books where category = ?", [$category]);
         $query = $source->SingleRow();
         $maxId = $query->id;
 
-        $query = $source->Query("SELECT min(id) as id FROM books where category = ?",[$category]);
+        $query = $source->Query("SELECT min(id) as id FROM books where category = ?", [$category]);
         $query = $source->SingleRow();
         $minId = $query->id;
 
@@ -66,8 +66,69 @@ class productdetail
         return $randomValue;
         // if($query = $source->Query("SELECT * FROM books where id = ?",[$randomValue])){
         //     return $query = $source->SingleRow();
-            
+
         // }
+    }
+
+    public function bestSell()
+    {
+        $source = new source();
+        $allpid = [];
+        $pidqty = [];
+        $query = $source->Query("SELECT * FROM `order`");
+        $details = $source->FetchAll();
+        $numrow = $source->CountRows();
+        $i = 1;
+        if ($numrow > 0) {
+            foreach ($details as $row) :
+                $query = $source->Query("SELECT bid,uid,date,bname,sum(qty) as qtyy,category  FROM `order` where bid = ?", [$row->bid]);
+                $db = $source->SingleRow();
+                $check = $row->bid;
+                if (!in_array($check, $allpid)) {
+                    $pidqty[] = array($row->bid, $db->qtyy);
+                }
+                $allpid[] = $check;
+            endforeach;
+        }
+
+        function build_sorter($key)
+        {
+            return function ($a, $b) use ($key) {
+                return strnatcmp($a[$key], $b[$key]);
+            };
+        }
+        usort($pidqty, build_sorter('1'));
+
+        foreach (array_reverse($pidqty) as $item) :
+            $query = $source->Query("SELECT * from `order` where bid = ? ", [$item[0]]);
+            $db = $source->SingleRow();
+            echo "
+                                    <div class='col-md-4'>
+                                    <div class='product-item'>
+                                        <div class='product-title' style='height:100px;'>
+                                            <a href='product-detail.php?bid=" . $db->bid . "'>$db->bname</a>
+                                            <div class='ratting'>
+                                            <span class='rateyo m-auto' data-rateyo-rating='" . $this->productRating($row->bid) . "' data-rateyo-read-only='true'></span>
+                                            
+    
+                                            </div>
+                                        </div>
+                                        <div class='product-image' >
+                                            <a href='product-detail.html'>
+                                                <img src='assets/bookimg/" . $db->image . "' style='height:400px;width:400px;' alt='Product Image'>
+                                            </a>
+                                            <div class='product-action'>
+                                                <a href='product-list.php?bookid=" . $db->bid . "'><i class='fa fa-cart-plus'></i></a>
+                                            </div>
+                                        </div>
+                                        <div class='product-price'>
+                                            <h3 class='text-white'>" . $db->price . "</h3>
+                                            <a class='btn' href='checkout.php?buyNow=" . $db->bid . "'><i class='fa fa-shopping-cart'></i>Buy Now</a>
+                                        </div>
+                                    </div>
+                                </div>
+                                    ";
+        endforeach;
     }
 
 
@@ -141,7 +202,7 @@ class productdetail
      * Set the value of id
      *
      * @return  self
-     */ 
+     */
     public function setId($id)
     {
         $this->id = $id;

@@ -236,8 +236,8 @@ if (isset($_POST['submit'])) {
                                         <div class='product-item'>
                                             <div class='product-title' style='height:100px;'>
                                                 <a href='product-detail.php?bid=" . $query->id . "'>" . $query->name . "</a>
-                                                <div class='ratting'>
-                                            <span class='rateyo m-auto' data-rateyo-rating='" . $pd->productRating($randomNum) . "' data-rateyo-read-only='true'></span>
+                                            <div class='ratting'>
+                                                <span class='rateyo m-auto' data-rateyo-rating='" . $pd->productRating($randomNum) . "' data-rateyo-read-only='true'></span>
                                             </div>
                                             </div>
                                             <div class='product-image'>

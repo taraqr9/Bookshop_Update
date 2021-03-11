@@ -1,6 +1,3 @@
-<?php
-$countCart = new cart();
-?>
 <div class="nav">
     <div class="container-fluid">
         <nav class="navbar navbar-expand-md bg-dark navbar-dark">
@@ -33,6 +30,7 @@ $countCart = new cart();
 
                 </div>
                 <?php
+
                 if (empty($_SESSION['login_success'])) {
                     echo "
                             <div class='navbar-nav ml-auto'>
@@ -54,6 +52,7 @@ $countCart = new cart();
                                                     <a href='my-account.php' class='dropdown-item'>My Account</a>
                                                     <a href='cart.php' class='dropdown-item'>Cart</a>
                                                     <a href='checkout.php' class='dropdown-item'>Checkout</a>
+                                                    <a href='order.php' class='dropdown-item'>Order</a>
                                                     <a href='logout.php' class='dropdown-item'>Logout</a>
                                                 </div>
                                             </div>
@@ -88,9 +87,13 @@ $countCart = new cart();
                 <div class="user">
                     <a href="cart.php" class="btn cart">
                         <i class="fa fa-shopping-cart"></i>
-                        <span>(<?php if (!empty($_SESSION['logId'])) {
+                        <span>(<?php
+                                $countCart = new cart();
+                                if (!empty($_SESSION['logId'])) {
                                     echo $countCart->onCart($_SESSION['logId']);
-                                }else{echo '0';}  ?>)</span>
+                                } else {
+                                    echo '0';
+                                }  ?>)</span>
                     </a>
                 </div>
             </div>
