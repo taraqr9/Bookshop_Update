@@ -32,17 +32,7 @@ include 'init.php';
     <?php include 'php/headnav.php' ?>
     <!-- Nav Bar End -->
 
-    <!-- Breadcrumb Start -->
-    <div class="breadcrumb-wrap">
-        <div class="container-fluid">
-            <ul class="breadcrumb">
-                <li class="breadcrumb-item"><a href="#">Home</a></li>
-                <li class="breadcrumb-item"><a href="#">Products</a></li>
-                <li class="breadcrumb-item active">My Account</li>
-            </ul>
-        </div>
-    </div>
-    <!-- Breadcrumb End -->
+    
 
     <!-- My Account Start -->
     <div class="my-account">

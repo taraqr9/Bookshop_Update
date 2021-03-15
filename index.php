@@ -29,12 +29,44 @@ $pd = new productdetail();
 
     <!-- Template Stylesheet -->
     <link href="css/style.css" rel="stylesheet">
+
+    <style>
+        .alert {
+            padding: 20px;
+            
+            color: white;
+        }
+
+        .closebtn {
+            margin-left: 15px;
+            color: white;
+            font-weight: bold;
+            float: right;
+            font-size: 30px;
+            line-height: 20px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .closebtn:hover {
+            color: black;
+        }
+    </style>
 </head>
 
 <body>
 
     <!-- Nav Bar Start -->
     <?php include 'php/headnav.php'; ?>
+    <?php if(!empty($_GET['newArrival'])){
+        echo 
+        "<div class='alert bg-danger'>
+            <span class='closebtn ' onclick='this.parentElement.style.display='none';'>&times;</span> 
+            <strong class = 'h4'>Sorry!</strong> <span class = 'h5'>This feature will add soon....</span>
+        </div>
+    ";
+
+    } ?>
     <form method="POST">
 
         <!-- Nav Bar End -->
@@ -54,7 +86,7 @@ $pd = new productdetail();
                                     <a class="nav-link" href="product-list.php?bestSell=1"><i class="fa fa-shopping-bag"></i>Best Selling</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" href="#"><i class="fas fa-plane-arrival"></i>New Arrivals</a>
+                                    <a class="nav-link" href="index.php?newArrival=1"><i class="fas fa-plane-arrival"></i>New Arrivals</a>
                                 </li>
                                 <li class="nav-item">
                                     <a class="nav-link" href="product-list.php?mostReview=1"><i class="fas fa-book-reader"></i>Most Reviewd</a>

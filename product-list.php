@@ -34,6 +34,30 @@ $pd = new productdetail();
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/rateYo/2.3.2/jquery.rateyo.min.css">
     <!-- Template Stylesheet -->
     <link href="css/style.css" rel="stylesheet">
+
+    <!-- Style for not sold page alert info -->
+    <style>
+        .alert {
+            padding: 20px;
+            
+            color: white;
+        }
+
+        .closebtn {
+            margin-left: 15px;
+            color: white;
+            font-weight: bold;
+            float: right;
+            font-size: 30px;
+            line-height: 20px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .closebtn:hover {
+            color: black;
+        }
+    </style>
 </head>
 
 <body>
@@ -44,6 +68,10 @@ $pd = new productdetail();
     <!-- Nav Bar End -->
 
     <?php
+    if (!empty($_SESSION['Error_cart'])) {
+        echo $_SESSION['Error_cart'];
+        $_SESSION['Error_cart'] = '';
+    }
     if (!empty($_SESSION['addCart'])) {
         echo $_SESSION['addCart'];
         $_SESSION['addCart'] = '';

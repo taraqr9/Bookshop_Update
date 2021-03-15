@@ -51,7 +51,6 @@
                                                 <div class='dropdown-menu'>
                                                     <a href='my-account.php' class='dropdown-item'>My Account</a>
                                                     <a href='cart.php' class='dropdown-item'>Cart</a>
-                                                    <a href='checkout.php' class='dropdown-item'>Checkout</a>
                                                     <a href='order.php' class='dropdown-item'>Order</a>
                                                     <a href='logout.php' class='dropdown-item'>Logout</a>
                                                 </div>
@@ -88,16 +87,19 @@
             </div>
             <div class="col-md-3">
                 <div class="user">
-                    <a href="cart.php" class="btn cart">
-                        <i class="fa fa-shopping-cart"></i>
-                        <span>(<?php
-                                $countCart = new cart();
-                                if (!empty($_SESSION['logId'])) {
-                                    echo $countCart->onCart($_SESSION['logId']);
-                                } else {
-                                    echo '0';
-                                }  ?>)</span>
-                    </a>
+                <?php if(!empty($_SESSION['logId'])){
+                    echo "<a href='cart.php' class='btn cart'>
+                    <i class='fa fa-shopping-cart'></i>
+                    <span>(";
+                            $countCart = new cart();
+                            if (!empty($_SESSION['logId'])) {
+                                echo $countCart->onCart($_SESSION['logId']);
+                            } else {
+                                echo '0';
+                            } echo ")</span>
+                    </a>";
+                } ?>
+                    
                 </div>
             </div>
         </div>
