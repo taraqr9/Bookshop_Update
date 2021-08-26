@@ -8,30 +8,59 @@ if (isset($_POST['registration'])) {
         $countRow = $source->CountRows();
 
         if ($countRow > 0) {
-            $Error = "Sorry, This user already exists";
+            $Error = "
+            <div class='alert bg-danger'>
+            <span class='closebtn ' onclick='this.parentElement.style.display='none';'>&times;</span> 
+            <strong class = 'h4'>Sorry!</strong> <span class = 'h5'>This user already exists</span>
+            </div>";
         } else {
             if (new signup($_POST['regName'], $_POST['regEmail'], $_POST['regPassword'], $_POST['phone'], $_POST['address'])) {
-                $Done = "Registration Successfull";
+                $Done = "
+                <div class='alert bg-success'>
+                <span class='closebtn ' onclick='this.parentElement.style.display='none';'>&times;</span> 
+                <strong class = 'h4'>Thank you</strong> <span class = 'h5'>
+                Registration Successfull</span>
+                </div>";
             } else {
-                $Error = "Something went wrong";
+                $Error = "
+                <div class='alert bg-danger'>
+                <span class='closebtn ' onclick='this.parentElement.style.display='none';'>&times;</span> 
+                <strong class = 'h4'>Sorry</strong> <span class = 'h5'>
+                Something is wrong in DATABASE</span>
+                </div>";
             }
         }
     } else {
-        $Error = "Please fillup your all details";
+        $Error = "
+            <div class='alert bg-danger'>
+            <span class='closebtn ' onclick='this.parentElement.style.display='none';'>&times;</span> 
+            <strong class = 'h4'>Please!</strong> <span class = 'h5'>Fillup All Your Details</span>
+            </div>";
     }
 }
 
 if (isset($_POST['login'])) {
-    if (!empty($_POST['logEmail']) || !empty($_POST['logPassword'])) {
-        if ($login = new login($_POST['logEmail'], $_POST['logPassword'])) {
+    if (!empty($_POST['logEmail']) && !empty($_POST['logPassword'])) {
+        $login = new login();
+        if ($login->loginCheck($_POST['logEmail'], $_POST['logPassword'])) {
             $id = $login->id($_POST['logEmail']);
             $_SESSION['login_success'] = $login->userName($_POST['logEmail']);
             $_SESSION['logId'] = $login->id($_POST['logEmail']);
             $_SESSION['name'] = $login->id($_POST['logEmail']);
             header("location:index.php");
+        }else{
+            $Error = "
+            <div class='alert bg-danger'>
+            <span class='closebtn ' onclick='this.parentElement.style.display='none';'>&times;</span> 
+            <strong class = 'h4'>Please!</strong> <span class = 'h5'>Check your email and password.</span>
+        </div>";
         }
     } else {
-        $Error = "Please enter your email and password";
+        $Error = "
+            <div class='alert bg-danger'>
+            <span class='closebtn ' onclick='this.parentElement.style.display='none';'>&times;</span> 
+            <strong class = 'h4'>Sorry!</strong> <span class = 'h5'>Enter your and Password properly</span>
+        </div>";
     }
 }
 ?>
@@ -59,6 +88,28 @@ if (isset($_POST['login'])) {
 
     <!-- Template Stylesheet -->
     <link href="css/style.css" rel="stylesheet">
+    <style>
+        .alert {
+            padding: 20px;
+
+            color: white;
+        }
+
+        .closebtn {
+            margin-left: 15px;
+            color: white;
+            font-weight: bold;
+            float: right;
+            font-size: 30px;
+            line-height: 20px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .closebtn:hover {
+            color: black;
+        }
+    </style>
 </head>
 
 <body>
@@ -69,7 +120,11 @@ if (isset($_POST['login'])) {
     <?php
 
     if (!empty($_GET['Error'])) {
-        echo "<span class='h2 text-danger'> Please Registration or Login first </span>";
+        echo "<div class='alert bg-danger'>
+        
+        <strong class = 'h4 text-white'>Sorry!</strong> <span class = 'h5 text-white'>You have to login first.</span><span class='closebtn ' onclick='this.parentElement.style.display='none';'>&times;</span> 
+    </div>
+    ";
         $_GET['Error'] = "";
     }
     ?>

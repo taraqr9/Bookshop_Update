@@ -72,6 +72,10 @@ $pd = new productdetail();
         echo $_SESSION['Error_cart'];
         $_SESSION['Error_cart'] = '';
     }
+    if(!empty($_SESSION['buynow_error'])){
+        echo $_SESSION['buynow_error'];
+        $_SESSION['buynow_error'] = '';
+    }
     if (!empty($_SESSION['addCart'])) {
         echo $_SESSION['addCart'];
         $_SESSION['addCart'] = '';

@@ -1,12 +1,17 @@
 <?php
 class login{
-    function __construct($email,$password)
+
+    public function loginCheck($email,$password):bool
     {
         $source = new source();
         $source->Query("SELECT * from `user` where `email` = ?",[$email]);
         $details = $source->SingleRow();
         $db_password = $details->password;
-        return password_verify($password,$db_password);
+        if(password_verify($password,$db_password)){
+            return true;
+        }else{
+            return false;
+        }
         
     }
     public function id($email){

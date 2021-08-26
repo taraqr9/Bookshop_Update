@@ -434,7 +434,7 @@ if (isset($_POST['submit'])) {
                 $(this).parent().find('.result').text('rate :' + rate);
                 $(this).parent().find('input[name=rate]').val(rate); //add rating value to input field
             });
-        });
+        }); 
     </script> -->
 </body>
 

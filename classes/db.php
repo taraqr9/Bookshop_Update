@@ -9,7 +9,7 @@ class db{
     public function __construct(){
         try{
             //creating DB connection
-            $this->db = new PDO("mysql:hsot=".$this->host.";dbname=".$this->database,
+            $this->db = new PDO("mysql:host=".$this->host.";dbname=".$this->database,
             $this->username,$this->password);
             
         }catch(PDOException $e){

@@ -12,7 +12,7 @@
             header('location:../product-detail.php?bid='.$_GET['addCart'].'');
         }
     }else{
-        header("location:../login.php?Error=1");
+        header("location:../login.php?Error=404");
     }
 
 ?>

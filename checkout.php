@@ -1,7 +1,13 @@
 <?php
 include "init.php";
 $pd = new productdetail();
-
+if (empty($_SESSION['logId'])) {
+    $_SESSION['buynow_error'] = "<div class='alert bg-danger'>
+    <span class='closebtn ' onclick='this.parentElement.style.display='none';'>&times;</span> 
+    <strong class = 'h4'>Sorry!</strong> <span class = 'h5'>You have to login first.</span>
+        </div>";
+    header('location:product-list.php');
+}
 if (!empty($_GET['buyNow']) && !empty($_SESSION['logId'])) {
     $pd->productDetails($_GET['buyNow']);
 } else {
@@ -15,7 +21,13 @@ if (isset($_POST['placeOrder']) && !empty($_SESSION['logId'])) {
     if (!empty($_POST['name']) && !empty($_POST['email']) && !empty($_POST['phone']) && !empty($_POST['address']) && $_POST['qty'] > 0) {
         $checkOut = new checkout();
         if ($checkOut->finalCheckOut($_POST['name'], $_POST['email'], $_POST['phone'], $_POST['address'], $_POST['qty'], $_GET['buyNow'])) {
-            $Error = "<p class='h3 text-success'>Your order has been placed successfully. Please check your Order in Order TAB.<p>";
+            $Error = "<p class='h3 text-success'><p>";
+            $Error = "
+            <div class='alert bg-success'>
+            <span class='closebtn ' onclick='this.parentElement.style.display='none';'>&times;</span> 
+            <span class = 'h5'>Your order has been placed <strong class = 'h4'> successfully </strong>. Please check your Order in Order TAB.</span>
+            </div>
+                    ";
             $_GET['buyNow'] = '';
         } else {
             $Error = $Error = "<div class='alert bg-danger'>
@@ -31,14 +43,15 @@ if (isset($_POST['placeOrder']) && !empty($_SESSION['logId'])) {
 </div>
 ";
     }
-} else {
-
-    $Error = "<div class='alert bg-danger'>
-    <span class='closebtn ' onclick='this.parentElement.style.display='none';'>&times;</span> 
-    <strong class = 'h4'>Sorry!</strong> <span class = 'h5'>You have to login first.</span>
-</div>
-";
 }
+// else {
+
+//     $Error = "<div class='alert bg-danger'>
+//     <span class='closebtn ' onclick='this.parentElement.style.display='none';'>&times;</span> 
+//     <strong class = 'h4'>Sorry!</strong> <span class = 'h5'>You have to login first.</span>
+// </div>
+// ";
+// }
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -64,7 +77,7 @@ if (isset($_POST['placeOrder']) && !empty($_SESSION['logId'])) {
     <style>
         .alert {
             padding: 20px;
-            
+
             color: white;
         }
 
@@ -159,37 +172,13 @@ if (isset($_POST['placeOrder']) && !empty($_SESSION['logId'])) {
                                 <div class="payment-methods">
 
                                     <h1>Payment Methods</h1>
-                                    <div class="payment-method">
-                                        <div class="custom-control custom-radio">
-                                            <input type="radio" class="custom-control-input" id="payment-1" name="payment">
-                                            <label class="custom-control-label selected" for="payment-1">Paypal</label>
-                                        </div>
-                                    </div>
-                                    <div class="payment-method">
-                                        <div class="custom-control custom-radio">
-                                            <input type="radio" class="custom-control-input" id="payment-2" name="payment">
-                                            <label class="custom-control-label" for="payment-2">Payoneer</label>
-                                        </div>
-                                    </div>
-                                    <div class="payment-method">
-                                        <div class="custom-control custom-radio">
-                                            <input type="radio" class="custom-control-input" id="payment-3" name="payment">
-                                            <label class="custom-control-label" for="payment-3">Check Payment</label>
-                                        </div>
-                                    </div>
-                                    <div class="payment-method">
-                                        <div class="custom-control custom-radio">
-                                            <input type="radio" class="custom-control-input" id="payment-4" name="payment">
-                                            <label class="custom-control-label" for="payment-4">Direct Bank Transfer</label>
-                                        </div>
-                                    </div>
+
                                     <div class="payment-method">
                                         <div class="custom-control custom-radio">
                                             <input type="radio" class="custom-control-input " checked name="payment">
                                             <label class="custom-control-label" for="payment-5">Cash on Delivery</label>
                                         </div>
                                     </div>
-                                    <p class="text-danger">***Other payment methods are comming soon.***</p>
                                 </div>
                                 <div class="checkout-btn">
                                     <input type="submit" value="Place Order" class="rounded btn btn-outline-success" name="placeOrder">
